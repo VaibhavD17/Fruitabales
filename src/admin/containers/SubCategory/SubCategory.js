@@ -8,14 +8,20 @@ import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 
 
 function SubCategory(props) {
     const [categoryData, setCategoryData] = useState([]);
     const [open, setOpen] = React.useState(false);
     const [subcategory, setsubCategory] = useState([]);
-    const [selectCateData, setSelectcateData] = useState('');
     const [update, setupdate] = useState(null);
+
 
     const getCategory = async () => {
         const response = await fetch("http://localhost:8080/category");
@@ -36,9 +42,6 @@ function SubCategory(props) {
 
     }
 
-    const selectCategory = (data) => {
-        setSelectcateData(data.name)
-    }
 
     const hendleAdd = async (data) => {
         const response = await fetch("http://localhost:8080/subcategory", {
@@ -64,6 +67,8 @@ function SubCategory(props) {
 
     const handleClose = () => {
         setOpen(false);
+        resetForm();
+        setupdate(null);
     };
 
     const hendleDelete = async (id) => {
@@ -71,35 +76,40 @@ function SubCategory(props) {
             method: "DELETE"
         })
 
-        const Fdata = await response.json();
-
-        setsubCategory((prev) => prev.filter((v) => v.id != id))
+        if (response.ok) {
+            setsubCategory((prev) => prev.filter((v) => v.id != id))
+        }
 
     }
 
     const hendleEdit = (data) => {
         setValues(data)
         setupdate(data.id)
-        
+        handleClickOpen();
 
     }
 
-    const hendleUpdate =async (data) => {
+    const hendleUpdate = async (data) => {
         const response = await fetch("http://localhost:8080/subcategory/" + data.id, {
             method: "PUT",
             headers: {
                 'Content-type': 'application/json',
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({ ...data, id: data.id })
         })
 
         const Fdata = await response.json();
 
-        setsubCategory((prev) => prev.map((v) => v.id === update ? Fdata : v))
+        if (response.ok) {
+            setsubCategory((prev) => prev.map((v) => v.id === data.id ? data : v))
+        }
+
     }
+
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 100 },
+        { field: 'category', headerName: 'Category', width: 180  },
         { field: 'subcategoryName', headerName: 'SubCategory name', width: 180 },
         { field: 'subcategoryDesc', headerName: 'SubCategory Description', width: 200 },
         {
@@ -108,11 +118,11 @@ function SubCategory(props) {
             renderCell: (params) => {
                 return (
                     <>
-                        <IconButton aria-label="edit" onClick={hendleEdit(params.row)}>
+                        <IconButton aria-label="edit" onClick={() => hendleEdit(params.row)}>
                             <EditIcon />
                         </IconButton>
 
-                        <IconButton aria-label="delete" onClick={hendleDelete(params.row.id)}>
+                        <IconButton aria-label="delete" onClick={() => hendleDelete(params.row.id)}>
                             <DeleteIcon />
                         </IconButton>
                     </>
@@ -124,10 +134,12 @@ function SubCategory(props) {
     let SubCategorySchema = object({
         subcategoryName: string().required("Please enter subcategory name"),
         subcategoryDesc: string().required("Please enter subcategory Description"),
+        category: string().required("Please select Category")
     });
 
     const formik = useFormik({
         initialValues: {
+            category: '',
             subcategoryName: '',
             subcategoryDesc: ''
         },
@@ -138,7 +150,6 @@ function SubCategory(props) {
             } else {
                 hendleAdd(values);
             }
-
             handleClose();
             resetForm();
         },
@@ -153,8 +164,6 @@ function SubCategory(props) {
             <div>
                 <h1>SubCategory</h1>
 
-
-
                 <React.Fragment>
                     <Button variant="outlined" onClick={handleClickOpen}>
                         Add To SubCategorys
@@ -162,19 +171,35 @@ function SubCategory(props) {
                     <Dialog
                         open={open}
                         onClose={handleClose}
+
                     >
                         <DialogTitle>SubCategory</DialogTitle>
                         <form onSubmit={handleSubmit}>
 
                             <DialogContent>
-                                <select onChange={(e) => selectCategory(e.target.value)}>
-                                    <option value={'0'}>-- Select Category --</option>
-                                    {
-                                        categoryData.map((v) => (
-                                            <option key={v.id} value={v.name}>{v.name}</option>
-                                        ))
-                                    }
-                                </select>
+                                <FormControl sx={{ m: 1, width: 300 }}>
+                                    <InputLabel id="demo-simple-select-error-label">Select Category</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-error-label"
+                                        id="category"
+                                        name="category"
+                                        value={values.category}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        label="Select Category"
+                                        error={errors.category && touched.category}
+                                        helperText={errors.category}
+                                    >
+                                        {categoryData.map((v) => (
+                                            <MenuItem
+                                                key={v.id}
+                                                value={v.id}
+                                            >
+                                                {v.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
 
                                 <TextField
                                     required
@@ -209,7 +234,7 @@ function SubCategory(props) {
                                 />
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>
-                                    <Button type="submit">add</Button>
+                                    <Button type="submit">{update ? 'update' : 'add'}</Button>
                                 </DialogActions>
                             </DialogContent>
                         </form>
@@ -230,6 +255,7 @@ function SubCategory(props) {
                         checkboxSelection
                     />
                 </div>
+
 
             </div>
         </Layout>
