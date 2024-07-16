@@ -109,9 +109,11 @@ function SubCategory(props) {
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 100 },
-        { field: 'category', headerName: 'Category', width: 180  },
-        { field: 'subcategoryName', headerName: 'SubCategory name', width: 180 },
-        { field: 'subcategoryDesc', headerName: 'SubCategory Description', width: 200 },
+        { field: 'category', headerName: 'Category', width: 180, renderCell: (params) => {
+            return categoryData.find((v) => v.id === params.row.category).name
+        }  },
+        { field: 'name', headerName: 'SubCategory name', width: 180 },
+        { field: 'description', headerName: 'SubCategory Description', width: 200 },
         {
             field: 'action',
             headerName: 'Action',
@@ -132,16 +134,16 @@ function SubCategory(props) {
     ];
 
     let SubCategorySchema = object({
-        subcategoryName: string().required("Please enter subcategory name"),
-        subcategoryDesc: string().required("Please enter subcategory Description"),
+        name: string().required("Please enter subcategory name"),
+        description: string().required("Please enter subcategory Description"),
         category: string().required("Please select Category")
     });
 
     const formik = useFormik({
         initialValues: {
             category: '',
-            subcategoryName: '',
-            subcategoryDesc: ''
+            name: '',
+            description: ''
         },
         validationSchema: SubCategorySchema,
         onSubmit: (values, { resetForm }) => {
@@ -157,7 +159,6 @@ function SubCategory(props) {
 
 
     const { handleSubmit, handleBlur, handleChange, errors, values, touched, resetForm, setValues } = formik
-
 
     return (
         <Layout>
@@ -188,7 +189,7 @@ function SubCategory(props) {
                                         onBlur={handleBlur}
                                         label="Select Category"
                                         error={errors.category && touched.category}
-                                        helperText={errors.category}
+                                        helperText={errors.category && touched.category ? errors.category : ''}
                                     >
                                         {categoryData.map((v) => (
                                             <MenuItem
@@ -202,34 +203,32 @@ function SubCategory(props) {
                                 </FormControl>
 
                                 <TextField
-                                    required
                                     margin="dense"
-                                    id="subcategoryName"
-                                    name="subcategoryName"
+                                    id="name"
+                                    name="name"
                                     label="SubCategory"
                                     type="text"
                                     fullWidth
                                     variant="outlined"
-                                    value={values.subcategoryName}
+                                    value={values.name}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    error={errors.subcategoryName && touched.subcategoryName}
-                                    helperText={errors.subcategoryName}
-                                />
+                                    error={errors.name && touched.name}
+                                    helperText={errors.name && touched.name ? errors.name : ''}                                />
                                 <TextField
                                     required
                                     margin="dense"
-                                    id="subcategoryDesc"
-                                    name="subcategoryDesc"
+                                    id="description"
+                                    name="description"
                                     label="SubCategory Description"
                                     type="text"
                                     fullWidth
                                     variant="outlined"
-                                    value={values.subcategoryDesc}
+                                    value={values.description}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    error={errors.subcategoryDesc && touched.subcategoryDesc}
-                                    helperText={errors.subcategoryDesc}
+                                    error={errors.description && touched.description}
+                                    helperText={errors.description && touched.description ? errors.description : ''}
 
                                 />
                                 <DialogActions>

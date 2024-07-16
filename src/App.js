@@ -13,6 +13,7 @@ import Testimonial from './containers/Testimonial/Testimonial';
 import { Route, Routes } from 'react-router-dom';
 import Category from './admin/containers/Category/Category';
 import SubCategory from './admin/containers/SubCategory/SubCategory';
+import Products from './admin/containers/Products/Products';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
 
       <Route path='/admin/category' element={<Category />}></Route>
       <Route path='/admin/subcategory' element={<SubCategory />}></Route>
+      <Route path='/admin/product' element={<Products />}></Route>
 
     </Routes>
     {/* <Footers /> */}

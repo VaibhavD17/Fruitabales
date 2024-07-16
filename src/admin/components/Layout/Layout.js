@@ -105,7 +105,7 @@ export default function Layout({ children }) {
     const listItems = [
         { label: 'Category', icon: <CategoryIcon />, to: '/admin/category' },
         { label: 'SubCategory', icon: <FilterNoneIcon />, to: '/admin/subcategory' },
-        { label: 'Product', icon: <Inventory2Icon />, to: '/admin/category' }
+        { label: 'Product', icon: <Inventory2Icon />, to: '/admin/product' }
     ]
 
     return (
