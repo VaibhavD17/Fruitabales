@@ -149,7 +149,6 @@ function Category(props) {
 
 
     return (
-        <Layout>
             <div>
                 <h1>Category</h1>
 
@@ -205,7 +204,6 @@ function Category(props) {
                 </div>
 
             </div>
-        </Layout>
     );
 }
 

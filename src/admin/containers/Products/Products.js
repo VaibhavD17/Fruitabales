@@ -73,13 +73,13 @@ function Products(props) {
         handleClickOpen();
     }
 
-    const hendleUpdate =async (data) => {
+    const hendleUpdate = async (data) => {
         const response = await fetch("http://localhost:8080/product/" + data.id, {
             method: "PUT",
             headers: {
                 'Content-type': 'application/json',
             },
-            body: JSON.stringify({...data, id:data.id})
+            body: JSON.stringify({ ...data, id: data.id })
         });
         const Pdata = await response.json();
 
@@ -101,16 +101,21 @@ function Products(props) {
     const handleClose = () => {
         setOpen(false);
         resetForm()
+        setUpdate(null)
     };
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 90 },
-        { field: 'category', headerName: 'Category name', width: 200 , renderCell:(params) => {
-            return categoryData.find((v) => v.id === params.row.category).name
-        }},
-        { field: 'subcategory', headerName: 'SubCategory name', width: 200 , renderCell: (params) => {
-            return subcategoryData.find((v) => v.id === params.row.subcategory).name
-        }},
+        {
+            field: 'category', headerName: 'Category name', width: 200, renderCell: (params) => {
+                return categoryData.find((v) => v.id === params.row.category).name
+            }
+        },
+        {
+            field: 'subcategory', headerName: 'SubCategory name', width: 200, renderCell: (params) => {
+                return subcategoryData.find((v) => v.id === params.row.subcategory).name
+            }
+        },
         { field: 'product', headerName: 'Product ', width: 200 },
         { field: 'productDesc', headerName: 'Product Description ', width: 200 },
         { field: 'price', headerName: 'price ', width: 130 },
@@ -167,7 +172,6 @@ function Products(props) {
     const { handleChange, handleBlur, handleSubmit, resetForm, errors, values, touched, setValues } = formik
 
     return (
-        <Layout>
             <div>
                 <h1>Products</h1>
 
@@ -182,55 +186,55 @@ function Products(props) {
                         <DialogTitle>Category</DialogTitle>
                         <form onSubmit={handleSubmit}>
 
-
-                            <FormControl sx={{ m: 1, width: 300 }}>
-                                <InputLabel id="demo-simple-select-error-label">Select Category</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-error-label"
-                                    id="category"
-                                    name="category"
-                                    value={values.category}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    label="Select Category"
-                                    error={errors.category && touched.category}
-                                    helperText={errors.category && touched.category ? errors.category : ''}
-                                >
-                                    {categoryData.map((v) => (
-                                        <MenuItem
-                                            key={v.id}
-                                            value={v.id}
-                                        >
-                                            {v.name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <FormControl sx={{ m: 1, width: 300 }}>
-                                <InputLabel id="demo-simple-select-error-label">Select SubCategory</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-error-label"
-                                    id="subcategory"
-                                    name="subcategory"
-                                    value={values.subcategory}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    label="Select SubCategory"
-                                    error={errors.subcategory && touched.subcategory}
-                                    helperText={errors.subcategory && touched.subcategory ? errors.subcategory : ''}
-                                >
-                                    {subcategoryData.filter((v) => v.category === values.category).map((v) => (
-                                        <MenuItem
-                                            key={v.id}
-                                            value={v.id}
-                                        >
-                                            {v.name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-
                             <DialogContent>
+                                <FormControl sx={{ m: 1, width: 300 }}>
+                                    <InputLabel id="demo-simple-select-error-label">Select Category</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-error-label"
+                                        id="category"
+                                        name="category"
+                                        value={values.category}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        label="Select Category"
+                                        error={errors.category && touched.category}
+                                        helperText={errors.category && touched.category ? errors.category : ''}
+                                    >
+                                        {categoryData.map((v) => (
+                                            <MenuItem
+                                                key={v.id}
+                                                value={v.id}
+                                            >
+                                                {v.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                <FormControl sx={{ m: 1, width: 300 }}>
+                                    <InputLabel id="demo-simple-select-error-label">Select SubCategory</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-error-label"
+                                        id="subcategory"
+                                        name="subcategory"
+                                        value={values.subcategory}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        label="Select SubCategory"
+                                        error={errors.subcategory && touched.subcategory}
+                                        helperText={errors.subcategory && touched.subcategory ? errors.subcategory : ''}
+                                    >
+                                        {subcategoryData.filter((v) => v.category === values.category).map((v) => (
+                                            <MenuItem
+                                                key={v.id}
+                                                value={v.id}
+                                            >
+                                                {v.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+
+
                                 <TextField
                                     margin="dense"
                                     id="product"
@@ -275,7 +279,7 @@ function Products(props) {
                                 />
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>
-                                    <Button type="submit">Add</Button>
+                                    <Button type="submit">{update ? 'Update' : 'Add'}</Button>
                                 </DialogActions>
                             </DialogContent>
                         </form>
@@ -297,7 +301,6 @@ function Products(props) {
                     />
                 </div>
             </div>
-        </Layout>
     );
 }
 

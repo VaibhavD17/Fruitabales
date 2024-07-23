@@ -22,24 +22,21 @@ function SubCategory(props) {
     const [subcategory, setsubCategory] = useState([]);
     const [update, setupdate] = useState(null);
 
+    useEffect(() => {
+        getData()
+    }, [])
 
-    const getCategory = async () => {
-        const response = await fetch("http://localhost:8080/category");
-        const data = await response.json();
 
-        setCategoryData(data)
+    const getData = async () => {
+        const categoryresponse = await fetch("http://localhost:8080/category");
+        const cData = await categoryresponse.json();
 
-        if (categoryData) {
-            getsubcategorydata()
-        }
-    }
+        setCategoryData(cData)
 
-    const getsubcategorydata = async () => {
-        const response = await fetch("http://localhost:8080/subcategory");
-        const data = await response.json();
+        const subResponse = await fetch("http://localhost:8080/subcategory");
+        const sData = await subResponse.json();
 
-        setsubCategory(data);
-
+        setsubCategory(sData);
     }
 
 
@@ -57,9 +54,6 @@ function SubCategory(props) {
         setsubCategory((prev) => [...prev, Fdata])
     }
 
-    useEffect(() => {
-        getCategory()
-    }, [])
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -161,7 +155,6 @@ function SubCategory(props) {
     const { handleSubmit, handleBlur, handleChange, errors, values, touched, resetForm, setValues } = formik
 
     return (
-        <Layout>
             <div>
                 <h1>SubCategory</h1>
 
@@ -257,7 +250,6 @@ function SubCategory(props) {
 
 
             </div>
-        </Layout>
     );
 }
 
