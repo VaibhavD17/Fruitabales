@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Layout from '../../components/Layout/Layout';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -15,56 +14,46 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { InputLabel, MenuItem, Select } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
+import { useDispatch, useSelector } from 'react-redux';
+import { addProduct, deleteProduct, getProduct, updateProduct } from '../../../redux/Slice/product.slice';
+import { getCategories } from '../../../redux/Slice/categories.slice';
+import { getSubcategories } from '../../../redux/Slice/subcategories.slice';
 
 function Products(props) {
     const [open, setOpen] = React.useState(false);
-    const [categoryData, setCategoryData] = useState([]);
-    const [subcategoryData, setSubcategoryData] = useState([]);
-    const [productData, setProductData] = useState([]);
     const [update, setUpdate] = useState('');
+
+    const dispatch = useDispatch();
+
+    const categorie = useSelector(state => state.categories)
+    const subCategorie = useSelector(state => state.subcategories)
+    const product = useSelector(state => state.products)
+
+    console.log(categorie);
+    console.log(subCategorie);
+
+    
+    useEffect(() => {
+        getData();
+        dispatch(getCategories());
+        dispatch(getSubcategories());
+    }, [])
 
 
     const getData = async () => {
-        const categoryresponse = await fetch("http://localhost:8080/category");
-        const Cdata = await categoryresponse.json();
-
-        setCategoryData(Cdata);
-
-        const subcategoryresponse = await fetch("http://localhost:8080/subcategory");
-        const Sdata = await subcategoryresponse.json();
-
-        setSubcategoryData(Sdata);
-
-        const productresponse = await fetch("http://localhost:8080/product");
-        const Pdata = await productresponse.json();
-
-        setProductData(Pdata);
+        dispatch(getProduct());
 
     }
 
     const hendleAdd = async (data) => {
-        const response = await fetch("http://localhost:8080/product", {
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
-        const Pdata = await response.json();
-
-
-        setProductData((prev) => [...prev, Pdata])
+        dispatch(addProduct(data));
 
     }
 
     const hendleDelete = async (id) => {
-        const response = await fetch("http://localhost:8080/product/" + id, {
-            method: "DELETE"
-        })
 
-        if (response.ok) {
-            setProductData((prev) => prev.filter((v) => v.id != id))
-        }
+        dispatch(deleteProduct(id));
+        
     }
 
     const hendleEdit = async (data) => {
@@ -74,25 +63,9 @@ function Products(props) {
     }
 
     const hendleUpdate = async (data) => {
-        const response = await fetch("http://localhost:8080/product/" + data.id, {
-            method: "PUT",
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify({ ...data, id: data.id })
-        });
-        const Pdata = await response.json();
-
-        if (response.ok) {
-            setProductData((prev) => prev.map((v) => v.id === data.id ? Pdata : v))
-        }
+        dispatch(updateProduct(data));
+        
     }
-
-
-    useEffect(() => {
-        getData();
-    }, [])
-
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -108,12 +81,12 @@ function Products(props) {
         { field: 'id', headerName: 'ID', width: 90 },
         {
             field: 'category', headerName: 'Category name', width: 200, renderCell: (params) => {
-                return categoryData.find((v) => v.id === params.row.category).name
+                return categorie.categories.find((v) => v.id === params.row.category)?.name
             }
         },
         {
             field: 'subcategory', headerName: 'SubCategory name', width: 200, renderCell: (params) => {
-                return subcategoryData.find((v) => v.id === params.row.subcategory).name
+                return subCategorie.subcategorie.find((v) => v.id === params.row.subcategory)?.name
             }
         },
         { field: 'product', headerName: 'Product ', width: 200 },
@@ -177,7 +150,7 @@ function Products(props) {
 
                 <React.Fragment>
                     <Button variant="outlined" onClick={handleClickOpen}>
-                        Add To Categorys
+                        Add To Products
                     </Button>
                     <Dialog
                         open={open}
@@ -200,7 +173,7 @@ function Products(props) {
                                         error={errors.category && touched.category}
                                         helperText={errors.category && touched.category ? errors.category : ''}
                                     >
-                                        {categoryData.map((v) => (
+                                        {categorie.categories.map((v) => (
                                             <MenuItem
                                                 key={v.id}
                                                 value={v.id}
@@ -223,12 +196,12 @@ function Products(props) {
                                         error={errors.subcategory && touched.subcategory}
                                         helperText={errors.subcategory && touched.subcategory ? errors.subcategory : ''}
                                     >
-                                        {subcategoryData.filter((v) => v.category === values.category).map((v) => (
+                                        {subCategorie.subcategorie.filter((v) => v.category === values.category)?.map((c) => (
                                             <MenuItem
-                                                key={v.id}
-                                                value={v.id}
+                                                key={c.id}
+                                                value={c.id}
                                             >
-                                                {v.name}
+                                                {c.name}
                                             </MenuItem>
                                         ))}
                                     </Select>
@@ -289,7 +262,7 @@ function Products(props) {
 
                 <div style={{ height: 400, width: '100%' }}>
                     <DataGrid
-                        rows={productData}
+                        rows={product.products}
                         columns={columns}
                         initialState={{
                             pagination: {

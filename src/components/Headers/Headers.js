@@ -30,6 +30,9 @@ function Headers(props) {
                                 <NavLink to={'/'} className="nav-item nav-link active">Home</NavLink>
                                 <NavLink to={'/shop'} className="nav-item nav-link">Shop</NavLink>
                                 <NavLink to={'/shopDetails'} className="nav-item nav-link">Shop Detail</NavLink>
+                                <NavLink to={'/counter'} className="nav-item nav-link">Counter</NavLink>
+                                <NavLink to={'/priceSlider'} className="nav-item nav-link">Price Slider</NavLink>
+
                                 <div className="nav-item dropdown">
                                     <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                     <div className="dropdown-menu m-0 bg-secondary rounded-0">
@@ -37,6 +40,7 @@ function Headers(props) {
                                         <NavLink to={'/checkout'} className="dropdown-item">Chackout</NavLink>
                                         <NavLink to={'/testimonial'} className="dropdown-item">Testimonial</NavLink>
                                         <NavLink to={'/error'} className="dropdown-item">404 Page</NavLink>
+                                        <NavLink to={'/login'} className="dropdown-item">Login</NavLink>
                                     </div>
                                 </div>
                                 <NavLink to={'/contacts'} className="nav-item nav-link">Contact</NavLink>
@@ -47,9 +51,9 @@ function Headers(props) {
                                     <i className="fa fa-shopping-bag fa-2x" />
                                     <span className="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style={{ top: '-5px', left: 15, height: 20, minWidth: 20 }}>3</span>
                                 </a>
-                                <a href="#" className="my-auto">
+                                <NavLink to={'/login'} className="my-auto">
                                     <i className="fas fa-user fa-2x" />
-                                </a>
+                                </NavLink>
                             </div>
                         </div>
                     </nav>

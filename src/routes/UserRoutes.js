@@ -10,6 +10,9 @@ import Checkout from '../containers/Checkout/Checkout';
 import Testimonial from '../containers/Testimonial/Testimonial';
 import Headers from '../components/Headers/Headers';
 import Footers from '../components/Footers/Footers';
+import Counter from '../containers/Counter/Counter';
+import PriceSlider from '../containers/Price-Slider/PriceSlider';
+import Login from '../containers/Login/Login';
 
 function UserRoutes(props) {
     return (
@@ -24,6 +27,9 @@ function UserRoutes(props) {
                 <Route path='cart' element={<Cart />}></Route>
                 <Route path='checkout' element={<Checkout />}></Route>
                 <Route path='testimonial' element={<Testimonial />}></Route>
+                <Route path='counter' element={<Counter />}></Route>
+                <Route path='priceSlider' element={<PriceSlider />}></Route>
+                <Route path='login' element={<Login />}></Route>
             </Routes>
             <Footers />
         </>

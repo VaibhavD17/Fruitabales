@@ -13,45 +13,38 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useDispatch, useSelector } from 'react-redux';
+import { addSubcategories, deleteSubcategory, getSubcategories, updateSubcategory } from '../../../redux/Slice/subcategories.slice';
+import { getCategories } from '../../../redux/Slice/categories.slice';
 
 
 
 function SubCategory(props) {
-    const [categoryData, setCategoryData] = useState([]);
     const [open, setOpen] = React.useState(false);
-    const [subcategory, setsubCategory] = useState([]);
     const [update, setupdate] = useState(null);
+
+    const dispatch = useDispatch();
+
+    const categorie = useSelector(state => state.categories)
+
+
+    const subCategories = useSelector(state => state.subcategories)
+
 
     useEffect(() => {
         getData()
+        dispatch(getCategories())
     }, [])
 
 
     const getData = async () => {
-        const categoryresponse = await fetch("http://localhost:8080/category");
-        const cData = await categoryresponse.json();
-
-        setCategoryData(cData)
-
-        const subResponse = await fetch("http://localhost:8080/subcategory");
-        const sData = await subResponse.json();
-
-        setsubCategory(sData);
+        dispatch(getSubcategories());
     }
 
 
     const hendleAdd = async (data) => {
-        const response = await fetch("http://localhost:8080/subcategory", {
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-
-        const Fdata = await response.json();
-
-        setsubCategory((prev) => [...prev, Fdata])
+        dispatch (addSubcategories(data));
+        
     }
 
 
@@ -66,13 +59,7 @@ function SubCategory(props) {
     };
 
     const hendleDelete = async (id) => {
-        const response = await fetch("http://localhost:8080/subcategory/" + id, {
-            method: "DELETE"
-        })
-
-        if (response.ok) {
-            setsubCategory((prev) => prev.filter((v) => v.id != id))
-        }
+        dispatch(deleteSubcategory(id))
 
     }
 
@@ -84,28 +71,18 @@ function SubCategory(props) {
     }
 
     const hendleUpdate = async (data) => {
-        const response = await fetch("http://localhost:8080/subcategory/" + data.id, {
-            method: "PUT",
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify({ ...data, id: data.id })
-        })
-
-        const Fdata = await response.json();
-
-        if (response.ok) {
-            setsubCategory((prev) => prev.map((v) => v.id === data.id ? data : v))
-        }
-
+       dispatch(updateSubcategory(data));
     }
 
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 100 },
-        { field: 'category', headerName: 'Category', width: 180, renderCell: (params) => {
-            return categoryData.find((v) => v.id === params.row.category).name
-        }  },
+        {
+            field: 'category', headerName: 'Category', width: 180,
+            renderCell: (params) => {
+                return categorie.categories.find((v) => v.id === params.row.category)?.name //option chain operator
+            }
+        },
         { field: 'name', headerName: 'SubCategory name', width: 180 },
         { field: 'description', headerName: 'SubCategory Description', width: 200 },
         {
@@ -155,101 +132,101 @@ function SubCategory(props) {
     const { handleSubmit, handleBlur, handleChange, errors, values, touched, resetForm, setValues } = formik
 
     return (
-            <div>
-                <h1>SubCategory</h1>
+        <div>
+            <h1>SubCategory</h1>
 
-                <React.Fragment>
-                    <Button variant="outlined" onClick={handleClickOpen}>
-                        Add To SubCategorys
-                    </Button>
-                    <Dialog
-                        open={open}
-                        onClose={handleClose}
+            <React.Fragment>
+                <Button variant="outlined" onClick={handleClickOpen}>
+                    Add To SubCategorys
+                </Button>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
 
-                    >
-                        <DialogTitle>SubCategory</DialogTitle>
-                        <form onSubmit={handleSubmit}>
+                >
+                    <DialogTitle>SubCategory</DialogTitle>
+                    <form onSubmit={handleSubmit}>
 
-                            <DialogContent>
-                                <FormControl sx={{ m: 1, width: 300 }}>
-                                    <InputLabel id="demo-simple-select-error-label">Select Category</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-error-label"
-                                        id="category"
-                                        name="category"
-                                        value={values.category}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        label="Select Category"
-                                        error={errors.category && touched.category}
-                                        helperText={errors.category && touched.category ? errors.category : ''}
-                                    >
-                                        {categoryData.map((v) => (
-                                            <MenuItem
-                                                key={v.id}
-                                                value={v.id}
-                                            >
-                                                {v.name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-
-                                <TextField
-                                    margin="dense"
-                                    id="name"
-                                    name="name"
-                                    label="SubCategory"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined"
-                                    value={values.name}
+                        <DialogContent>
+                            <FormControl sx={{ m: 1, width: 300 }}>
+                                <InputLabel id="demo-simple-select-error-label">Select Category</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-error-label"
+                                    id="category"
+                                    name="category"
+                                    value={values.category}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    error={errors.name && touched.name}
-                                    helperText={errors.name && touched.name ? errors.name : ''}                                />
-                                <TextField
-                                    required
-                                    margin="dense"
-                                    id="description"
-                                    name="description"
-                                    label="SubCategory Description"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined"
-                                    value={values.description}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={errors.description && touched.description}
-                                    helperText={errors.description && touched.description ? errors.description : ''}
+                                    label="Select Category"
+                                    error={errors.category && touched.category}
+                                    helperText={errors.category && touched.category ? errors.category : ''}
+                                >
+                                    {categorie.categories.map((v) => (
+                                        <MenuItem
+                                            key={v.id}
+                                            value={v.id}
+                                        >
+                                            {v.name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
 
-                                />
-                                <DialogActions>
-                                    <Button onClick={handleClose}>Cancel</Button>
-                                    <Button type="submit">{update ? 'update' : 'add'}</Button>
-                                </DialogActions>
-                            </DialogContent>
-                        </form>
+                            <TextField
+                                margin="dense"
+                                id="name"
+                                name="name"
+                                label="SubCategory"
+                                type="text"
+                                fullWidth
+                                variant="outlined"
+                                value={values.name}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                error={errors.name && touched.name}
+                                helperText={errors.name && touched.name ? errors.name : ''} />
+                            <TextField
+                                required
+                                margin="dense"
+                                id="description"
+                                name="description"
+                                label="SubCategory Description"
+                                type="text"
+                                fullWidth
+                                variant="outlined"
+                                value={values.description}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                error={errors.description && touched.description}
+                                helperText={errors.description && touched.description ? errors.description : ''}
 
-                    </Dialog>
-                </React.Fragment>
+                            />
+                            <DialogActions>
+                                <Button onClick={handleClose}>Cancel</Button>
+                                <Button type="submit">{update ? 'update' : 'add'}</Button>
+                            </DialogActions>
+                        </DialogContent>
+                    </form>
 
-                <div style={{ height: 400, width: '100%' }}>
-                    <DataGrid
-                        rows={subcategory}
-                        columns={columns}
-                        initialState={{
-                            pagination: {
-                                paginationModel: { page: 0, pageSize: 5 },
-                            },
-                        }}
-                        pageSizeOptions={[5, 10]}
-                        checkboxSelection
-                    />
-                </div>
+                </Dialog>
+            </React.Fragment>
 
-
+            <div style={{ height: 400, width: '100%' }}>
+                <DataGrid
+                    rows={subCategories.subcategorie}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { page: 0, pageSize: 5 },
+                        },
+                    }}
+                    pageSizeOptions={[5, 10]}       
+                    checkboxSelection
+                />
             </div>
+
+
+        </div>
     );
 }
 

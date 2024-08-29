@@ -1,76 +1,124 @@
 {
   "category": [
     {
-      "id": "21f8",
-      "name": "fations"
+      "id": "b98c",
+      "name": "fation"
     },
     {
-      "id": "005c",
+      "id": "3580",
       "name": "electronics"
     },
     {
-      "id": "b45a",
+      "id": "54e9",
       "name": "books"
+    },
+    {
+      "id": "c844",
+      "name": "Sports"
+    },
+    {
+      "id": "b2c7",
+      "name": "Fruits"
+    },
+    {
+      "id": "d614",
+      "name": "Vagitable"
     }
   ],
   "subcategory": [
     {
-      "id": "1ad0",
-      "category": "21f8",
-      "name": "Mans",
-      "description": "Shirt, pent"
+      "id": "0b5a",
+      "category": "b98c",
+      "name": "fation ok",
+      "description": "hello"
     },
     {
-      "id": "4a2b",
-      "category": "005c",
-      "name": "Mobile",
-      "description": "Smart Phone"
-    },
-    {
-      "id": "bd5b",
-      "category": "b45a",
-      "name": "General Knowlage",
-      "description": "History"
-    },
-    {
-      "id": "af6f",
-      "category": "005c",
+      "id": "aa72",
+      "category": "3580",
       "name": "Television",
-      "description": "smart TV"
+      "description": "ssss"
+    },
+    {
+      "id": "2139",
+      "category": "54e9",
+      "name": "mens",
+      "description": "fdf"
+    },
+    {
+      "id": "dccd",
+      "category": "c844",
+      "name": "Shooes",
+      "description": "dsafdfd"
+    },
+    {
+      "id": "26ee",
+      "category": "b2c7",
+      "name": "banana",
+      "description": "ssss"
+    },
+    {
+      "id": "261d",
+      "category": "d614",
+      "name": "Brocoly",
+      "description": "gggg"
     }
   ],
   "product": [
     {
-      "id": "ad45",
-      "category": "21f8",
-      "subcategory": "1ad0",
+      "id": "d46e",
+      "category": "b98c",
+      "subcategory": "0b5a",
       "product": "Shirt",
-      "productDesc": "coton",
-      "price": "300"
+      "productDesc": "ssss",
+      "price": "100"
     },
     {
-      "id": "c979",
-      "category": "b45a",
-      "subcategory": "bd5b",
+      "id": "b9f1",
+      "category": "54e9",
+      "subcategory": "2139",
       "product": "History",
-      "productDesc": "Indian history",
-      "price": "400"
-    },
-    {
-      "id": "463b",
-      "category": "005c",
-      "subcategory": "4a2b",
-      "product": "vivo",
-      "productDesc": "Y21E",
+      "productDesc": "q",
       "price": "10000"
     },
     {
-      "id": "352b",
-      "category": "005c",
-      "subcategory": "af6f",
+      "id": "fe54",
+      "category": "3580",
+      "subcategory": "aa72",
       "product": "Samsung",
       "productDesc": "Smart Television",
       "price": "20000"
+    },
+    {
+      "id": "ed08",
+      "category": "c844",
+      "subcategory": "dccd",
+      "product": "sega",
+      "productDesc": "Indiabrand",
+      "price": "800"
+    },
+    {
+      "id": "3ebe",
+      "category": "b2c7",
+      "subcategory": "26ee",
+      "product": "banana",
+      "productDesc": "fff",
+      "price": "50"
+    },
+    {
+      "id": "49a4",
+      "category": "d614",
+      "subcategory": "261d",
+      "product": "lkkllk",
+      "productDesc": "iiiiii",
+      "price": "20"
+    },
+    {
+      "id": "585c",
+      "category": "d614",
+      "subcategory": "261d",
+      "product": "tttt",
+      "productDesc": "kkkk",
+      "price": "99"
     }
   ]
 }

@@ -13,25 +13,42 @@ import { useFormik } from 'formik';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCategories, deleteCategories, getCategories, updateCategories } from '../../../redux/Slice/categories.slice';
 
 
 
 
 function Category(props) {
     const [open, setOpen] = React.useState(false);
-    const [catData, setCatdata] = useState([]);
-    const [update, setUpdate] = useState(null);
+    const [update, setUpdate] = useState('')
 
-    const getData = async () => {
-        const response = await fetch("http://localhost:8080/category");
-        const data = await response.json();
+    const dispatch = useDispatch();
 
-        setCatdata(data)
-    }
+    const categorie = useSelector(state => state.categories)
 
     useEffect(() => {
         getData();
     }, [])
+
+    const getData = async () => {
+
+        dispatch(getCategories());
+    }
+
+   
+
+    const hendleAdd = async (data) => {
+
+        dispatch(addCategories(data))
+
+    }
+
+    const hendleDelete = (id) => {
+
+        dispatch(deleteCategories(id))
+
+    }
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -39,54 +56,19 @@ function Category(props) {
 
     const handleClose = () => {
         setOpen(false);
-        setUpdate(null)
+        setUpdate(null);
         resetForm()
     };
 
-    const hendleAdd = async (data) => {
-        const response = await fetch("http://localhost:8080/category", {
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
-
-        const Fdata = await response.json();
-
-        setCatdata((prev) => [...prev, Fdata])
-
-    }
+   
 
     const hendleUpdate = async (data) => {
-        const response = await fetch("http://localhost:8080/category/" + data.id, {
-            method: "PUT",
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify({...data, id:data.id})
-        });
 
-        const Fdata = await response.json();
-
-        if (response.ok) {
-            setCatdata((prev) => prev.map((v) => v.id === data.id ? data : v))
-        }
+        dispatch(updateCategories(data));
 
     }
 
-    const hendleDelete = async (id) => {
-        const response = await fetch("http://localhost:8080/category/" + id, {
-            method: "DELETE"
-        });
-
-        console.log(response);
-
-        if (response.ok) {
-            setCatdata((prev) => prev.filter((v) => v.id != id))
-        }
-
-    }
+   
 
     const hendleEdit = (data) => {
 
@@ -125,6 +107,9 @@ function Category(props) {
         name: string().required('Please Enter Category Name')
     });
 
+    
+
+
     const formik = useFormik({
         initialValues: {
             name: ''
@@ -139,7 +124,6 @@ function Category(props) {
             }
 
             handleClose();
-
             resetForm();
         },
     });
@@ -149,61 +133,61 @@ function Category(props) {
 
 
     return (
-            <div>
-                <h1>Category</h1>
+        <div>
+            <h1>Category</h1>
 
-                <React.Fragment>
-                    <Button variant="outlined" onClick={handleClickOpen}>
-                        Add To Categorys
-                    </Button>
-                    <Dialog
-                        open={open}
-                        onClose={handleClose}
-                    >
-                        <DialogTitle>Category</DialogTitle>
-                        <form onSubmit={handleSubmit}>
-                            <DialogContent>
-                                <TextField
-                                    required
-                                    margin="dense"
-                                    id="name"
-                                    name="name"
-                                    label="Category"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined"
-                                    value={values.name}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={errors.name && touched.name}
-                                    helperText={errors.name}
-                                />
-                                <DialogActions>
-                                    <Button onClick={handleClose}>Cancel</Button>
-                                    <Button type="submit">{update ? 'Update' : 'Add'}</Button>
-                                </DialogActions>
-                            </DialogContent>
-                        </form>
+            <React.Fragment>
+                <Button variant="outlined" onClick={handleClickOpen}>
+                    Add To Categorys
+                </Button>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                >
+                    <DialogTitle>Category</DialogTitle>
+                    <form onSubmit={handleSubmit}>
+                        <DialogContent>
+                            <TextField
+                                required
+                                margin="dense"
+                                id="name"
+                                name="name"
+                                label="Category"
+                                type="text"
+                                fullWidth
+                                variant="outlined"
+                                value={values.name}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                error={errors.name && touched.name}
+                                helperText={errors.name}
+                            />
+                            <DialogActions>
+                                <Button onClick={handleClose}>Cancel</Button>
+                                <Button type="submit">{update ? 'Update' : 'Add'}</Button>
+                            </DialogActions>
+                        </DialogContent>
+                    </form>
 
-                    </Dialog>
-                </React.Fragment>
+                </Dialog>
+            </React.Fragment>
 
 
-                <div style={{ height: 400, width: '100%' }}>
-                    <DataGrid
-                        rows={catData}
-                        columns={columns}
-                        initialState={{
-                            pagination: {
-                                paginationModel: { page: 0, pageSize: 5 },
-                            },
-                        }}
-                        pageSizeOptions={[5, 10]}
-                        checkboxSelection
-                    />
-                </div>
-
+            <div style={{ height: 400, width: '100%' }}>
+                <DataGrid
+                    rows={categorie.categories}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { page: 0, pageSize: 5 },
+                        },
+                    }}
+                    pageSizeOptions={[5, 10]}
+                    checkboxSelection
+                />
             </div>
+
+        </div>
     );
 }
 

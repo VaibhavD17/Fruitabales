@@ -1,9 +1,120 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategories } from '../../redux/Slice/categories.slice';
+import { getSubcategories } from '../../redux/Slice/subcategories.slice';
+import { getProduct } from '../../redux/Slice/product.slice';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
+
 
 function Shop(props) {
+    const [search, setSearch] = useState("")
+    const [sort, setSort] = useState("")
+    const [selectCategory, setSelectCategory] = useState("")
+    const [value1, setValue1] = React.useState([0, 1000]);
+  
+    
+    // console.log(selectCategory);
+    // console.log(search);
+    // console.log(sort);
+
+
+    const dispatch = useDispatch();
+
+    const categorie = useSelector(state => state.categories)
+    // const subcategorie = useSelector(state => state.subcategories)
+
+    const product = useSelector(state => state.products)
+
+    // console.log(categorie);
+    // console.log(product.products);
+
+
+
+    const hendleSearchSort = () => {
+
+        const fData = product.products.filter((v) => (
+            v.product.toLowerCase().includes(search.toLowerCase()) ||
+            v.productDesc.toLowerCase().includes(search.toLowerCase()) ||
+            v.price.toString().includes(search)
+        ))
+
+        // console.log(fData);
+
+
+        const sData = fData.sort((a, b) => {
+            if (sort === 'az') {
+                return a.product.localeCompare(b.product)
+            } else if (sort === 'za') {
+                return b.product.localeCompare(a.product)
+            } else if (sort === 'lh') {
+                return a.price - b.price
+            } else if (sort === 'hl') {
+                return b.price - a.price
+            }
+
+        })
+
+        const pData = sData.filter((v) => (
+            v.price >= value1[0] && v.price <= value1[1]
+        ))
+
+        if (selectCategory) {
+            if (selectCategory === 'all') {
+                return pData;
+            } else {
+                const cData = pData.filter((v) => (
+                    v.category === selectCategory
+                ))
+                return cData;
+            }
+        }
+
+
+        return pData;
+    }
+
+
+    useEffect(() => {
+        getData();
+    }, [])
+
+    const getData = () => {
+        dispatch(getCategories());
+        dispatch(getSubcategories())
+        dispatch(getProduct());
+    }
+
+    const finalData = hendleSearchSort();
+
+
+    function valuetext(value) {
+        return `${value}°C`;
+    }
+
+    const minDistance = 500;
+
+
+    console.log(value1);
+
+
+    const handleChange1 = (event, newValue, activeThumb) => {
+        if (!Array.isArray(newValue)) {
+            return;
+        }
+
+        if (activeThumb === 0) {
+            setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
+        } else {
+            setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
+        }
+    };
+
+
+
     return (
         <div>
-            
+
             {/* Single Page Header start */}
             <div className="container-fluid page-header py-5">
                 <h1 className="text-center text-white display-6">Shop</h1>
@@ -23,7 +134,7 @@ function Shop(props) {
                             <div className="row g-4">
                                 <div className="col-xl-3">
                                     <div className="input-group w-100 mx-auto d-flex">
-                                        <input type="search" className="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1" />
+                                        <input type="search" className="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1" onChange={(e) => setSearch(e.target.value)} />
                                         <span id="search-icon-1" className="input-group-text p-3"><i className="fa fa-search" /></span>
                                     </div>
                                 </div>
@@ -31,11 +142,12 @@ function Shop(props) {
                                 <div className="col-xl-3">
                                     <div className="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
                                         <label htmlFor="fruits">Default Sorting:</label>
-                                        <select id="fruits" name="fruitlist" className="border-0 form-select-sm bg-light me-3" form="fruitform">
-                                            <option value="volvo">Nothing</option>
-                                            <option value="saab">Popularity</option>
-                                            <option value="opel">Organic</option>
-                                            <option value="audi">Fantastic</option>
+                                        <select id="fruits" name="fruitlist" className="border-0 form-select-sm bg-light me-3" form="fruitform" onChange={(e) => setSort(e.target.value)}>
+                                            <option value="0">-- Select Sort --</option>
+                                            <option value="az">Title: A to Z</option>
+                                            <option value="za">Title: Z to A</option>
+                                            <option value="lh">Price: Low to High</option>
+                                            <option value="hl">Price: High to Low</option>
                                         </select>
                                     </div>
                                 </div>
@@ -47,69 +159,62 @@ function Shop(props) {
                                             <div className="mb-3">
                                                 <h4>Categories</h4>
                                                 <ul className="list-unstyled fruite-categorie">
+
                                                     <li>
                                                         <div className="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i className="fas fa-apple-alt me-2" />Apples</a>
-                                                            <span>(3)</span>
+                                                            <a href="#" value={"all"} onClick={(e) => setSelectCategory("all")}><i className="fas fa-apple-alt me-2" />All Products</a>
+                                                            {/* <span>(3)</span> */}
                                                         </div>
                                                     </li>
-                                                    <li>
-                                                        <div className="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i className="fas fa-apple-alt me-2" />Oranges</a>
-                                                            <span>(5)</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div className="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i className="fas fa-apple-alt me-2" />Strawbery</a>
-                                                            <span>(2)</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div className="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i className="fas fa-apple-alt me-2" />Banana</a>
-                                                            <span>(8)</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div className="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i className="fas fa-apple-alt me-2" />Pumpkin</a>
-                                                            <span>(5)</span>
-                                                        </div>
-                                                    </li>
+                                                    {
+                                                        categorie.categories.map((v) => (
+                                                            <li>
+                                                                <div className="d-flex justify-content-between fruite-name">
+                                                                    <a href="#" value={v.name} onClick={() => setSelectCategory(v.id)}><i className="fas fa-apple-alt me-2" />{v.name}</a>
+                                                                    {/* <span>(3)</span> */}
+                                                                </div>
+                                                            </li>
+                                                        ))
+                                                    }
                                                 </ul>
                                             </div>
                                         </div>
+
+
                                         <div className="col-lg-12">
-                                            <div className="mb-3">
-                                                <h4 className="mb-2">Price</h4>
-                                                <input type="range" className="form-range w-100" id="rangeInput" name="rangeInput" min={0} max={500} defaultValue={0} oninput="amount.value=rangeInput.value" />
-                                                <output id="amount" name="amount" min-velue={0} max-value={500} htmlFor="rangeInput">0</output>
+
+
+                                            <div className="price-input">
+                                                <div className="field">
+                                                    <span>Min</span>
+                                                    {/* <input type="number" className="input-min" value={value1[0]} onChange={setValue1[0]}/> */}
+                                                    <input type='number' value={value1[0]} onChange={(e) => setValue1([parseInt(e.target.value), value1[1]])}/>
+                                                </div>
+                                                <div className="separator">-</div>
+                                                <div className="field">
+                                                    <span>Max</span>
+                                                    {/* <input type="number" className="input-max"  value={value1[1]} onChange={setValue1[1]}/> */}
+                                                    <input type='number' value={value1[1]} onChange={(e) => setValue1([value1[0], parseInt(e.target.value)])}/>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="col-lg-12">
+
+
+
                                             <div className="mb-3">
-                                                <h4>Additional</h4>
-                                                <div className="mb-2">
-                                                    <input type="radio" className="me-2" id="Categories-1" name="Categories-1" defaultValue="Beverages" />
-                                                    <label htmlFor="Categories-1"> Organic</label>
-                                                </div>
-                                                <div className="mb-2">
-                                                    <input type="radio" className="me-2" id="Categories-2" name="Categories-1" defaultValue="Beverages" />
-                                                    <label htmlFor="Categories-2"> Fresh</label>
-                                                </div>
-                                                <div className="mb-2">
-                                                    <input type="radio" className="me-2" id="Categories-3" name="Categories-1" defaultValue="Beverages" />
-                                                    <label htmlFor="Categories-3"> Sales</label>
-                                                </div>
-                                                <div className="mb-2">
-                                                    <input type="radio" className="me-2" id="Categories-4" name="Categories-1" defaultValue="Beverages" />
-                                                    <label htmlFor="Categories-4"> Discount</label>
-                                                </div>
-                                                <div className="mb-2">
-                                                    <input type="radio" className="me-2" id="Categories-5" name="Categories-1" defaultValue="Beverages" />
-                                                    <label htmlFor="Categories-5"> Expired</label>
-                                                </div>
+                                                <Box sx={{ width: 300 }}>
+                                                    <Slider
+                                                        getAriaLabel={() => 'Minimum distance'}
+                                                        value={value1}
+                                                        onChange={handleChange1}
+                                                        valueLabelDisplay="auto"
+                                                        getAriaValueText={valuetext}
+                                                        disableSwap
+                                                        step={100}
+                                                        min={0}
+                                                        max={30000}
+                                                    />
+                                                </Box>
+
                                             </div>
                                         </div>
                                         <div className="col-lg-12">
@@ -187,150 +292,32 @@ function Shop(props) {
                                 </div>
                                 <div className="col-lg-9">
                                     <div className="row g-4 justify-content-center">
-                                        <div className="col-md-6 col-lg-6 col-xl-4">
-                                            <div className="rounded position-relative fruite-item">
-                                                <div className="fruite-img">
-                                                    <img src="img/fruite-item-5.jpg" className="img-fluid w-100 rounded-top" alt />
-                                                </div>
-                                                <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>Fruits</div>
-                                                <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Grapes</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div className="d-flex justify-content-between flex-lg-wrap">
-                                                        <p className="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
+
+                                        {
+                                            finalData.map((v) => (
+                                                <div className="col-md-6 col-lg-6 col-xl-4" >
+                                                    <div className="rounded position-relative fruite-item">
+                                                        <div className="fruite-img">
+                                                            <img src="img/fruite-item-5.jpg" className="img-fluid w-100 rounded-top" alt />
+                                                        </div>
+                                                        <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>{categorie.categories.find((c) => v.category === c.id)?.name}</div>
+                                                        <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                            <h4>{v.product}</h4>
+                                                            <p>{v.productDesc}</p>
+                                                            <div className="d-flex justify-content-between flex-lg-wrap">
+                                                                <p className="text-dark fs-5 fw-bold mb-0">{v.price}</p>
+                                                                <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 col-lg-6 col-xl-4">
-                                            <div className="rounded position-relative fruite-item">
-                                                <div className="fruite-img">
-                                                    <img src="img/fruite-item-5.jpg" className="img-fluid w-100 rounded-top" alt />
-                                                </div>
-                                                <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>Fruits</div>
-                                                <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Grapes</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div className="d-flex justify-content-between flex-lg-wrap">
-                                                        <p className="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 col-lg-6 col-xl-4">
-                                            <div className="rounded position-relative fruite-item">
-                                                <div className="fruite-img">
-                                                    <img src="img/fruite-item-2.jpg" className="img-fluid w-100 rounded-top" alt />
-                                                </div>
-                                                <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>Fruits</div>
-                                                <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Raspberries</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div className="d-flex justify-content-between flex-lg-wrap">
-                                                        <p className="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 col-lg-6 col-xl-4">
-                                            <div className="rounded position-relative fruite-item">
-                                                <div className="fruite-img">
-                                                    <img src="img/fruite-item-4.jpg" className="img-fluid w-100 rounded-top" alt />
-                                                </div>
-                                                <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>Fruits</div>
-                                                <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Apricots</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div className="d-flex justify-content-between flex-lg-wrap">
-                                                        <p className="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 col-lg-6 col-xl-4">
-                                            <div className="rounded position-relative fruite-item">
-                                                <div className="fruite-img">
-                                                    <img src="img/fruite-item-3.jpg" className="img-fluid w-100 rounded-top" alt />
-                                                </div>
-                                                <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>Fruits</div>
-                                                <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Banana</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div className="d-flex justify-content-between flex-lg-wrap">
-                                                        <p className="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 col-lg-6 col-xl-4">
-                                            <div className="rounded position-relative fruite-item">
-                                                <div className="fruite-img">
-                                                    <img src="img/fruite-item-1.jpg" className="img-fluid w-100 rounded-top" alt />
-                                                </div>
-                                                <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>Fruits</div>
-                                                <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Oranges</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div className="d-flex justify-content-between flex-lg-wrap">
-                                                        <p className="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 col-lg-6 col-xl-4">
-                                            <div className="rounded position-relative fruite-item">
-                                                <div className="fruite-img">
-                                                    <img src="img/fruite-item-2.jpg" className="img-fluid w-100 rounded-top" alt />
-                                                </div>
-                                                <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>Fruits</div>
-                                                <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Raspberries</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div className="d-flex justify-content-between flex-lg-wrap">
-                                                        <p className="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 col-lg-6 col-xl-4">
-                                            <div className="rounded position-relative fruite-item">
-                                                <div className="fruite-img">
-                                                    <img src="img/fruite-item-5.jpg" className="img-fluid w-100 rounded-top" alt />
-                                                </div>
-                                                <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>Fruits</div>
-                                                <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Grapes</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div className="d-flex justify-content-between flex-lg-wrap">
-                                                        <p className="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 col-lg-6 col-xl-4">
-                                            <div className="rounded position-relative fruite-item">
-                                                <div className="fruite-img">
-                                                    <img src="img/fruite-item-1.jpg" className="img-fluid w-100 rounded-top" alt />
-                                                </div>
-                                                <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>Fruits</div>
-                                                <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Oranges</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div className="d-flex justify-content-between flex-lg-wrap">
-                                                        <p className="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            ))
+                                        }
+
+
+
+
+
                                         <div className="col-12">
                                             <div className="pagination d-flex justify-content-center mt-5">
                                                 <a href="#" className="rounded">«</a>
