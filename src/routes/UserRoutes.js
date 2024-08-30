@@ -21,7 +21,7 @@ function UserRoutes(props) {
             <Routes>
                 <Route path='/' element={<Home />}></Route>
                 <Route path='shop' element={<Shop />}></Route>
-                <Route path='shopDetails' element={<ShopDetails />}></Route>
+                <Route path='shopDetails/:id' element={<ShopDetails />}></Route>
                 <Route path='contacts' element={<Contacts />}></Route>
                 <Route path='error' element={<Error />}></Route>
                 <Route path='cart' element={<Cart />}></Route>

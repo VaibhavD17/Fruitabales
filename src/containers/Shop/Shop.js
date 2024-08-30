@@ -5,6 +5,7 @@ import { getSubcategories } from '../../redux/Slice/subcategories.slice';
 import { getProduct } from '../../redux/Slice/product.slice';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+import { NavLink } from 'react-router-dom';
 
 
 function Shop(props) {
@@ -12,8 +13,8 @@ function Shop(props) {
     const [sort, setSort] = useState("")
     const [selectCategory, setSelectCategory] = useState("")
     const [value1, setValue1] = React.useState([0, 1000]);
-  
-    
+
+
     // console.log(selectCategory);
     // console.log(search);
     // console.log(sort);
@@ -188,13 +189,13 @@ function Shop(props) {
                                                 <div className="field">
                                                     <span>Min</span>
                                                     {/* <input type="number" className="input-min" value={value1[0]} onChange={setValue1[0]}/> */}
-                                                    <input type='number' value={value1[0]} onChange={(e) => setValue1([parseInt(e.target.value), value1[1]])}/>
+                                                    <input type='number' value={value1[0]} onChange={(e) => setValue1([parseInt(e.target.value), value1[1]])} />
                                                 </div>
                                                 <div className="separator">-</div>
                                                 <div className="field">
                                                     <span>Max</span>
                                                     {/* <input type="number" className="input-max"  value={value1[1]} onChange={setValue1[1]}/> */}
-                                                    <input type='number' value={value1[1]} onChange={(e) => setValue1([value1[0], parseInt(e.target.value)])}/>
+                                                    <input type='number' value={value1[1]} onChange={(e) => setValue1([value1[0], parseInt(e.target.value)])} />
                                                 </div>
                                             </div>
 
@@ -296,20 +297,22 @@ function Shop(props) {
                                         {
                                             finalData.map((v) => (
                                                 <div className="col-md-6 col-lg-6 col-xl-4" >
-                                                    <div className="rounded position-relative fruite-item">
-                                                        <div className="fruite-img">
-                                                            <img src="img/fruite-item-5.jpg" className="img-fluid w-100 rounded-top" alt />
-                                                        </div>
-                                                        <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>{categorie.categories.find((c) => v.category === c.id)?.name}</div>
-                                                        <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                            <h4>{v.product}</h4>
-                                                            <p>{v.productDesc}</p>
-                                                            <div className="d-flex justify-content-between flex-lg-wrap">
-                                                                <p className="text-dark fs-5 fw-bold mb-0">{v.price}</p>
-                                                                <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
+                                                    <NavLink to={`/shopDetails/${v.id}`}>
+                                                        <div className="rounded position-relative fruite-item">
+                                                            <div className="fruite-img">
+                                                                <img src="img/fruite-item-5.jpg" className="img-fluid w-100 rounded-top" alt />
+                                                            </div>
+                                                            <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>{categorie.categories.find((c) => v.category === c.id)?.name}</div>
+                                                            <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <h4>{v.product}</h4>
+                                                                <p>{v.productDesc}</p>
+                                                                <div className="d-flex justify-content-between flex-lg-wrap">
+                                                                    <p className="text-dark fs-5 fw-bold mb-0">{v.price}</p>
+                                                                    <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </NavLink>
                                                 </div>
                                             ))
                                         }
