@@ -23,13 +23,41 @@ const cartSlice = createSlice({
             } else {
                 state.cart[index].qty++
             }
-            
-            
+        },
+
+        increment: (state, action) => {
+            const pid = action.payload;
+
+            const index = state.cart.findIndex((v) => v.pid === pid)
+
+            state.cart[index].qty++;
+        },
+           
+        decrement: (state, action) => {
+            const pid = action.payload;
+
+            const index = state.cart.findIndex((v) => v.pid === pid)
+
+            if (state.cart[index].qty > 1 ) {
+                state.cart[index].qty = state.cart[index].qty - 1;
+            }
+
+        },
+        
+        deleteqty: (state, action) => {
+            const pid = action.payload;
+
+            const index = state.cart.findIndex((v) => v.pid === pid)
+
+           const fData =  state.cart.filter((v) => v != state.cart[index]);
+
+           state.cart = fData;
             
         }
+
     }
 })
 
-export const { addtoCart } = cartSlice.actions;
+export const { addtoCart, increment, decrement, deleteqty } = cartSlice.actions;
 
 export default cartSlice.reducer;

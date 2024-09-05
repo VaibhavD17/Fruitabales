@@ -4,6 +4,7 @@ import Category from '../admin/containers/Category/Category';
 import SubCategory from '../admin/containers/SubCategory/SubCategory';
 import Products from '../admin/containers/Products/Products';
 import Layout from '../admin/components/Layout/Layout';
+import Coupon from '../admin/containers/Coupon/Coupon';
 
 function AdminRoutes(props) {
     return (
@@ -13,6 +14,7 @@ function AdminRoutes(props) {
                     <Route path='category' element={<Category />}></Route>
                     <Route path='subcategory' element={<SubCategory />}></Route>
                     <Route path='product' element={<Products />}></Route>
+                    <Route path='coupon' element={<Coupon />}></Route>
                 </Routes >
             </Layout>
         </>

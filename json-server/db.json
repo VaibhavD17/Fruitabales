@@ -120,5 +120,30 @@
       "productDesc": "kkkk",
       "price": "99"
     }
+  ],
+  "coupon": [
+    {
+      "id": "26a5",
+      "code": "ABCD",
+      "discount": "10"
+    },
+    {
+      "id": "177b",
+      "code": "WXYZ",
+      "discount": "20"
+    },
+    {
+      "id": "e89d",
+      "code": "MNOP",
+      "discount": "50"
+    },
+    {
+      "id": "81da",
+      "code": "AEIO",
+      "discount": "80"
+    }
+  ],
+  "review":[
+  
   ]
 }

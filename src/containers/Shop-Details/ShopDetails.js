@@ -1,35 +1,86 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { addtoCart } from '../../redux/Slice/cart.slice';
 import { getProduct } from '../../redux/Slice/product.slice';
+import { Form, Input } from 'reactstrap';
+import { object, string } from 'yup';
+import { useFormik } from 'formik';
+import { Rating } from '@mui/material';
 
 
 function ShopDetails(props) {
 
-    const {id} = useParams();
+    const { id } = useParams();
+    const [starRating, setStarReting] = useState(1)
 
     const product = useSelector(state => state.products)
     const cart = useSelector(state => state.cart)
 
-    console.log(cart);
-    
-
-
     const fData = product.products.find((v) => v.id === id);
-
 
     const dispatch = useDispatch();
 
     const hendleCart = (id) => {
         dispatch(addtoCart(id))
     }
-    
-    
+
+    const hendleRating = async (data) => {
+        await fetch("http://localhost:8080/review", {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+
+        console.log(data);
+
+    }
+
+    let checkoutShema = object({
+        name: string().required("Please Enter Your Name"),
+        email: string().email().required("Please Enter Email"),
+        review: string().min(10).max(1000).required("Please Enter Your Review")
+    })
+
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: '',
+            review: ''
+        },
+        validationSchema: checkoutShema,
+        onSubmit:  (values, { resetForm }) => {
+
+
+            // await fetch("http://localhost:8080/review", {
+            //     method: "POST",
+            //     headers: {
+            //         'Content-type': 'application/json',
+            //     },
+            //     body: JSON.stringify({ ...values, rate: starRating, pid: id, status: "panding", uid: '' })
+            // })
+
+            hendleRating({ ...values, rate: starRating, pid: id, status: "panding", uid: '' })
+
+            resetForm();
+
+
+        },
+    });
+
+
+    const { handleBlur, handleChange, handleSubmit, values, errors, touched, setValues, resetForm } = formik
+
+
+    console.log(values, errors);
+
+
 
     return (
         <div>
-            
+
             {/* Single Page Header start */}
             <div className="container-fluid page-header py-5">
                 <h1 className="text-center text-white display-6">Shop Detail</h1>
@@ -190,36 +241,102 @@ function ShopDetails(props) {
                                 <form action="#">
                                     <h4 className="mb-5 fw-bold">Leave a Reply</h4>
                                     <div className="row g-4">
-                                        <div className="col-lg-6">
-                                            <div className="border-bottom rounded">
-                                                <input type="text" className="form-control border-0 me-4" placeholder="Yur Name *" />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <div className="border-bottom rounded">
-                                                <input type="email" className="form-control border-0" placeholder="Your Email *" />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-12">
-                                            <div className="border-bottom rounded my-4">
-                                                <textarea name id className="form-control border-0" cols={30} rows={8} placeholder="Your Review *" spellCheck="false" defaultValue={""} />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-12">
-                                            <div className="d-flex justify-content-between py-3 mb-5">
-                                                <div className="d-flex align-items-center">
-                                                    <p className="mb-0 me-3">Please rate:</p>
-                                                    <div className="d-flex align-items-center" style={{ fontSize: 12 }}>
-                                                        <i className="fa fa-star text-muted" />
-                                                        <i className="fa fa-star" />
-                                                        <i className="fa fa-star" />
-                                                        <i className="fa fa-star" />
-                                                        <i className="fa fa-star" />
-                                                    </div>
+                                        <Form onSubmit={handleSubmit}>
+                                            <div className="col-lg-6">
+                                                <div className="border rounded">
+                                                    <Input
+                                                        id='name'
+                                                        name='name'
+                                                        type="text"
+                                                        className="form-control border-0 me-4"
+                                                        placeholder="Your Name *"
+                                                        value={values.name}
+                                                        onChange={handleChange}
+                                                        onBlur={handleBlur}
+                                                    // error={errors.name && touched.name}
+                                                    // helperText={errors.name && touched.name ? errors.name : ''}
+                                                    />
                                                 </div>
-                                                <a href="#" className="btn border border-secondary text-primary rounded-pill px-4 py-3"> Post Comment</a>
+                                                <span
+                                                    style={{
+                                                        color: 'red',
+                                                        display: 'block'
+                                                    }}
+                                                >
+                                                    {errors.name && touched.name ? errors.name : ''}
+                                                </span>
+
                                             </div>
-                                        </div>
+                                            <div className="col-lg-6 my-4">
+                                                <div className="border rounded">
+                                                    <Input
+                                                        id='email'
+                                                        name='email'
+                                                        type="email"
+                                                        className="form-control border-0"
+                                                        placeholder="Your Email *"
+                                                        value={values.email}
+                                                        onChange={handleChange}
+                                                        onBlur={handleBlur}
+                                                    // error={errors.email && touched.email}
+                                                    // helperText={errors.email && touched.email ? errors.email : ''}
+                                                    />
+                                                </div>
+                                                <span
+                                                    style={{
+                                                        color: 'red',
+                                                        display: 'block'
+                                                    }}
+                                                >
+                                                    {errors.email && touched.email ? errors.email : ''}
+                                                </span>
+
+                                            </div>
+                                            <div className="col-lg-12">
+                                                <div className="border rounded my-4">
+                                                    <textarea
+                                                        name='review'
+                                                        id='review'
+                                                        className="form-control border-0"
+                                                        cols={30} rows={8}
+                                                        placeholder="Your Review *"
+                                                        spellCheck="false"
+                                                        value={values.review}
+                                                        onChange={handleChange}
+                                                        onBlur={handleBlur}
+                                                    // error={errors.review && touched.review}
+                                                    // helperText={errors.review && touched.review ? errors.review : ''}
+                                                    />
+                                                </div>
+                                                <span
+                                                    style={{
+                                                        color: 'red',
+                                                        display: 'block'
+                                                    }}
+                                                >
+                                                    {errors.review && touched.review ? errors.review : ''}
+                                                </span>
+
+                                            </div>
+                                            <div className="col-lg-12">
+                                                <div className="d-flex justify-content-between py-3 mb-5">
+                                                    <div className="d-flex align-items-center">
+                                                        <p className="mb-0 me-3">Please rate:</p>
+                                                        <Rating
+                                                            id='rate'
+                                                            name='rate'
+                                                            size="medium"
+                                                            value={starRating}
+                                                            onChange={(event, newValue) => {
+                                                                setStarReting(newValue);
+                                                            }}
+                                                        />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <button className="btn border border-secondary text-primary rounded-pill px-4 py-3" type='submit'> Post Comment</button>
+                                        </Form>
                                     </div>
                                 </form>
                             </div>

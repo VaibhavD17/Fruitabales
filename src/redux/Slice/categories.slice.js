@@ -86,7 +86,7 @@ const categorieSlice = createSlice({
             state.categories = action.payload
         })
         builder.addCase(addCategories.fulfilled, (state, action) => {
-            state.categories.push(action.payload)
+            state.categories = state.categories.concat(action.payload)
         })
         builder.addCase(deleteCategories.fulfilled, (state, action) => {
             state.categories = state.categories.filter((v) => v.id != action.payload)

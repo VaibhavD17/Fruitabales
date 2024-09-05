@@ -5,6 +5,7 @@ import categoriesSlice from "../Slice/categories.slice";
 import subcategoriesSlice from "../Slice/subcategories.slice";
 import productSlice from "../Slice/product.slice";
 import cartSlice from "../Slice/cart.slice";
+import couponSlice from "../Slice/coupon.slice";
 
 
 export const rootReducer = combineReducers({
@@ -12,5 +13,6 @@ export const rootReducer = combineReducers({
     categories: categoriesSlice,
     subcategories : subcategoriesSlice,
     products: productSlice,
-    cart: cartSlice
+    cart: cartSlice,
+    coupon:couponSlice
 })

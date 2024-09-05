@@ -14,22 +14,11 @@ function Shop(props) {
     const [selectCategory, setSelectCategory] = useState("")
     const [value1, setValue1] = React.useState([0, 1000]);
 
-
-    // console.log(selectCategory);
-    // console.log(search);
-    // console.log(sort);
-
-
     const dispatch = useDispatch();
 
     const categorie = useSelector(state => state.categories)
-    // const subcategorie = useSelector(state => state.subcategories)
 
     const product = useSelector(state => state.products)
-
-    // console.log(categorie);
-    // console.log(product.products);
-
 
 
     const hendleSearchSort = () => {
@@ -39,8 +28,6 @@ function Shop(props) {
             v.productDesc.toLowerCase().includes(search.toLowerCase()) ||
             v.price.toString().includes(search)
         ))
-
-        // console.log(fData);
 
 
         const sData = fData.sort((a, b) => {
@@ -94,9 +81,6 @@ function Shop(props) {
     }
 
     const minDistance = 500;
-
-
-    console.log(value1);
 
 
     const handleChange1 = (event, newValue, activeThumb) => {
