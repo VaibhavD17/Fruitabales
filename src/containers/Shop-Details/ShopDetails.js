@@ -7,6 +7,7 @@ import { Form, Input } from 'reactstrap';
 import { object, string } from 'yup';
 import { useFormik } from 'formik';
 import { Rating } from '@mui/material';
+import { addReview, getReview } from '../../redux/Slice/review.slice';
 
 
 function ShopDetails(props) {
@@ -16,6 +17,8 @@ function ShopDetails(props) {
 
     const product = useSelector(state => state.products)
     const cart = useSelector(state => state.cart)
+    const reviews = useSelector(state => state.review)
+
 
     const fData = product.products.find((v) => v.id === id);
 
@@ -26,17 +29,17 @@ function ShopDetails(props) {
     }
 
     const hendleRating = async (data) => {
-        await fetch("http://localhost:8080/review", {
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-
-        console.log(data);
+        dispatch(addReview(data));
 
     }
+
+    const getData = () => {
+        dispatch(getReview());
+    }
+
+    useEffect(() => {
+        getData();
+    }, [])
 
     let checkoutShema = object({
         name: string().required("Please Enter Your Name"),
@@ -52,15 +55,6 @@ function ShopDetails(props) {
         },
         validationSchema: checkoutShema,
         onSubmit:  (values, { resetForm }) => {
-
-
-            // await fetch("http://localhost:8080/review", {
-            //     method: "POST",
-            //     headers: {
-            //         'Content-type': 'application/json',
-            //     },
-            //     body: JSON.stringify({ ...values, rate: starRating, pid: id, status: "panding", uid: '' })
-            // })
 
             hendleRating({ ...values, rate: starRating, pid: id, status: "panding", uid: '' })
 
@@ -238,10 +232,10 @@ function ShopDetails(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <form action="#">
+                               
                                     <h4 className="mb-5 fw-bold">Leave a Reply</h4>
                                     <div className="row g-4">
-                                        <Form onSubmit={handleSubmit}>
+                                        <form onSubmit={handleSubmit}>
                                             <div className="col-lg-6">
                                                 <div className="border rounded">
                                                     <Input
@@ -336,9 +330,8 @@ function ShopDetails(props) {
                                                 </div>
                                             </div>
                                             <button className="btn border border-secondary text-primary rounded-pill px-4 py-3" type='submit'> Post Comment</button>
-                                        </Form>
+                                        </form>
                                     </div>
-                                </form>
                             </div>
                         </div>
                         <div className="col-lg-4 col-xl-3">

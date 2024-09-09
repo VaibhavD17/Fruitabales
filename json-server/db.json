@@ -143,7 +143,46 @@
       "discount": "80"
     }
   ],
-  "review":[
-  
+  "review": [
+    {
+      "id": "62f0",
+      "name": "vaibhav",
+      "email": "vaibhav9723142179@gmail.com",
+      "review": "vvvvvvvvvvvvvvvvvvvvvvvvvvv",
+      "rate": 5,
+      "pid": "d46e",
+      "status": "Active",
+      "uid": ""
+    },
+    {
+      "id": "a2fe",
+      "name": "fation",
+      "email": "rgsr@123",
+      "review": "jsajcsncjasnxlcnas",
+      "rate": 4,
+      "pid": "585c",
+      "status": "Active",
+      "uid": ""
+    },
+    {
+      "id": "7338",
+      "name": "books",
+      "email": "babababab@123",
+      "review": "jtoierythslknaslk",
+      "rate": 3,
+      "pid": "49a4",
+      "status": "Active",
+      "uid": ""
+    },
+    {
+      "id": "9ce6",
+      "name": "Television",
+      "email": "ldldldlld@4242",
+      "review": "walerhqewlrjlsmd.Z<m",
+      "rate": 2,
+      "pid": "ed08",
+      "status": "Active",
+      "uid": ""
+    }
   ]
 }

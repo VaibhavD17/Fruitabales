@@ -22,7 +22,8 @@ import CategoryIcon from '@mui/icons-material/Category';
 import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import { NavLink } from 'react-router-dom';
-import AssistantIcon from '@mui/icons-material/Assistant';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import ReviewsIcon from '@mui/icons-material/Reviews';
 
 const drawerWidth = 240;
 
@@ -107,7 +108,10 @@ export default function Layout({ children }) {
         { label: 'Category', icon: <CategoryIcon />, to: '/admin/category' },
         { label: 'SubCategory', icon: <FilterNoneIcon />, to: '/admin/subcategory' },
         { label: 'Product', icon: <Inventory2Icon />, to: '/admin/product' },
-        { label: 'coupon', icon: <AssistantIcon />, to: '/admin/coupon' }
+        { label: 'coupon', icon: <LocalOfferIcon />, to: '/admin/coupon' },
+        { label: 'reviewdata', icon: <ReviewsIcon />, to: '/admin/reviewdata' }
+
+
     ]
 
     return (
