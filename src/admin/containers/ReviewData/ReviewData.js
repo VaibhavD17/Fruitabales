@@ -16,13 +16,14 @@ function ReviewData(props) {
     const getData =  () => {
 
         dispatch(getReview())
+        
 
     }
 
-    const [checked, setChecked] = React.useState();
-
     const handleChange = async (data) => {
         dispatch(updateReview(data))
+
+       
     };
 
 
@@ -46,9 +47,8 @@ function ReviewData(props) {
                 return (
                     <>
                         <Switch
-                            checked={checked}
+                            checked={params.row.status === 'Active' ? true : false}
                             onChange={() => handleChange(params.row)}
-                            // onChange={handleChange}
                             inputProps={{ 'aria-label': 'controlled' }}
                         />
                     </>

@@ -6,17 +6,24 @@ import { getProduct } from '../../redux/Slice/product.slice';
 import { Form, Input } from 'reactstrap';
 import { object, string } from 'yup';
 import { useFormik } from 'formik';
-import { Rating } from '@mui/material';
-import { addReview, getReview } from '../../redux/Slice/review.slice';
+import { IconButton, Rating } from '@mui/material';
+import { addReview, deleteReview, editReview, getReview } from '../../redux/Slice/review.slice';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { nnNO } from '@mui/material/locale';
+import { green, red } from '@mui/material/colors';
 
 
 function ShopDetails(props) {
 
     const { id } = useParams();
     const [starRating, setStarReting] = useState(1)
+    const [disable, setdisable] = useState(false);
+    const [update, setUpdate] = useState(false)
 
+
+    
     const product = useSelector(state => state.products)
-    const cart = useSelector(state => state.cart)
     const reviews = useSelector(state => state.review)
 
 
@@ -24,17 +31,43 @@ function ShopDetails(props) {
 
     const dispatch = useDispatch();
 
+    const hendledisable = () => {
+        reviews.review.map((v) => {
+            console.log(v, v.pid === id, v.uid === 'ddd' , v.status === "Active");
+            
+            if (v.pid === id && v.uid === 'ddd') {
+                setdisable(true)
+            } 
+        })
+
+        console.log(disable);
+        
+    }
+
+
     const hendleCart = (id) => {
         dispatch(addtoCart(id))
     }
 
     const hendleRating = async (data) => {
         dispatch(addReview(data));
+    }
 
+    const hendleDelete = (id) => {
+        dispatch(deleteReview(id))
+        setdisable(false)
+    }
+
+    const hendleEdit = (data) => {
+        setValues(data)
+        setStarReting(data.rate)
+        setUpdate(true)
+        setdisable(false)
     }
 
     const getData = () => {
         dispatch(getReview());
+        hendledisable()
     }
 
     useEffect(() => {
@@ -54,11 +87,21 @@ function ShopDetails(props) {
             review: ''
         },
         validationSchema: checkoutShema,
-        onSubmit:  (values, { resetForm }) => {
+        onSubmit: (values, { resetForm }) => {
 
-            hendleRating({ ...values, rate: starRating, pid: id, status: "panding", uid: '' })
+            if (update) {
+                dispatch(editReview({ ...values, rate: starRating }))
+            } else {
+                hendleRating({ ...values, rate: starRating, pid: id, status: "panding", uid: 'ddd' })
+            }
+
+            setStarReting(1)
 
             resetForm();
+
+            setUpdate(false)
+
+            setdisable(true)
 
 
         },
@@ -67,9 +110,7 @@ function ShopDetails(props) {
 
     const { handleBlur, handleChange, handleSubmit, values, errors, touched, setValues, resetForm } = formik
 
-
-    console.log(values, errors);
-
+console.log(values);
 
 
     return (
@@ -186,44 +227,63 @@ function ShopDetails(props) {
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div className="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-                                            <div className="d-flex">
-                                                <img src="img/avatar.jpg" className="img-fluid rounded-circle p-3" style={{ width: 100, height: 100 }} alt />
-                                                <div className>
-                                                    <p className="mb-2" style={{ fontSize: 14 }}>April 12, 2024</p>
-                                                    <div className="d-flex justify-content-between">
-                                                        <h5>Jason Smith</h5>
-                                                        <div className="d-flex mb-3">
-                                                            <i className="fa fa-star text-secondary" />
-                                                            <i className="fa fa-star text-secondary" />
-                                                            <i className="fa fa-star text-secondary" />
-                                                            <i className="fa fa-star text-secondary" />
-                                                            <i className="fa fa-star" />
+                                            {
+                                                reviews.review.filter((v) => v.pid === id && v.status === 'Active').map((v) => (
+                                                    <div className="d-flex">
+                                                        <img src="img/avatar.jpg" className="img-fluid rounded-circle p-3" style={{ width: 100, height: 100 }} alt />
+                                                        <div className>
+                                                            <p className="mb-2" style={{ fontSize: 14 }}>{v.email}</p>
+                                                            <div className="d-flex justify-content-between">
+                                                                <h5>{v.name}</h5>
+                                                                <div className="d-flex mb-3" style={{ marginLeft: 20 }}>
+                                                                    <Rating
+                                                                        id='rate'
+                                                                        name="rate"
+                                                                        size="medium"
+                                                                        value={v.rate}
+                                                                        readOnly
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <p className="text-dark">{v.review}</p>
                                                         </div>
+                                                        {
+                                                            v.uid === 'ddd' ?
+                                                                <>
+                                                                    <button aria-label="edit"
+                                                                        onClick={() => hendleEdit(v)}
+                                                                        style={{
+                                                                            margin: 20,
+                                                                            backgroundColor: 'white',
+                                                                            border: 'none'
+                                                                        }} >
+                                                                        <EditIcon color="success" />
+                                                                    </button>
+                                                                    <button aria-label="delete"
+                                                                        onClick={() => hendleDelete(v.id)}
+                                                                        style={{
+                                                                            margin: 20,
+                                                                            marginLeft: 0,
+                                                                            backgroundColor: 'white',
+                                                                            border: "none"
+                                                                        }}
+                                                                    >
+                                                                        <DeleteIcon sx={{ color: red[800] }} />
+                                                                    </button>
+                                                                </>
+                                                                :
+                                                                null
+                                                        }
                                                     </div>
-                                                    <p>The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic
-                                                        words etc. Susp endisse ultricies nisi vel quam suscipit </p>
-                                                </div>
-                                            </div>
-                                            <div className="d-flex">
-                                                <img src="img/avatar.jpg" className="img-fluid rounded-circle p-3" style={{ width: 100, height: 100 }} alt />
-                                                <div className>
-                                                    <p className="mb-2" style={{ fontSize: 14 }}>April 12, 2024</p>
-                                                    <div className="d-flex justify-content-between">
-                                                        <h5>Sam Peters</h5>
-                                                        <div className="d-flex mb-3">
-                                                            <i className="fa fa-star text-secondary" />
-                                                            <i className="fa fa-star text-secondary" />
-                                                            <i className="fa fa-star text-secondary" />
-                                                            <i className="fa fa-star" />
-                                                            <i className="fa fa-star" />
-                                                        </div>
-                                                    </div>
-                                                    <p className="text-dark">The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic
-                                                        words etc. Susp endisse ultricies nisi vel quam suscipit </p>
-                                                </div>
-                                            </div>
+                                                ))
+                                            }
+
+
+
                                         </div>
+
                                         <div className="tab-pane" id="nav-vision" role="tabpanel">
                                             <p className="text-dark">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam
                                                 amet diam et eos labore. 3</p>
@@ -232,9 +292,10 @@ function ShopDetails(props) {
                                         </div>
                                     </div>
                                 </div>
-                               
-                                    <h4 className="mb-5 fw-bold">Leave a Reply</h4>
-                                    <div className="row g-4">
+
+                                <h4 className="mb-5 fw-bold">Leave a Reply</h4>
+                                <div className="row g-4">
+                                    {
                                         <form onSubmit={handleSubmit}>
                                             <div className="col-lg-6">
                                                 <div className="border rounded">
@@ -247,8 +308,7 @@ function ShopDetails(props) {
                                                         value={values.name}
                                                         onChange={handleChange}
                                                         onBlur={handleBlur}
-                                                    // error={errors.name && touched.name}
-                                                    // helperText={errors.name && touched.name ? errors.name : ''}
+                                                        disabled={disable}
                                                     />
                                                 </div>
                                                 <span
@@ -272,8 +332,7 @@ function ShopDetails(props) {
                                                         value={values.email}
                                                         onChange={handleChange}
                                                         onBlur={handleBlur}
-                                                    // error={errors.email && touched.email}
-                                                    // helperText={errors.email && touched.email ? errors.email : ''}
+                                                        disabled={disable}
                                                     />
                                                 </div>
                                                 <span
@@ -298,8 +357,7 @@ function ShopDetails(props) {
                                                         value={values.review}
                                                         onChange={handleChange}
                                                         onBlur={handleBlur}
-                                                    // error={errors.review && touched.review}
-                                                    // helperText={errors.review && touched.review ? errors.review : ''}
+                                                        disabled={disable}
                                                     />
                                                 </div>
                                                 <span
@@ -324,14 +382,17 @@ function ShopDetails(props) {
                                                             onChange={(event, newValue) => {
                                                                 setStarReting(newValue);
                                                             }}
+                                                            disabled={disable}
                                                         />
                                                     </div>
 
                                                 </div>
                                             </div>
-                                            <button className="btn border border-secondary text-primary rounded-pill px-4 py-3" type='submit'> Post Comment</button>
+                                            <button className="btn border border-secondary text-primary rounded-pill px-4 py-3" type='submit' disabled={disable}> Post Comment</button>
                                         </form>
-                                    </div>
+                                    }
+
+                                </div>
                             </div>
                         </div>
                         <div className="col-lg-4 col-xl-3">

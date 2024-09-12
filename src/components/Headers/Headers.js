@@ -35,7 +35,6 @@ function Headers(props) {
                             <div className="navbar-nav mx-auto">
                                 <NavLink to={'/'} className="nav-item nav-link active">Home</NavLink>
                                 <NavLink to={'/shop'} className="nav-item nav-link">Shop</NavLink>
-                                <NavLink to={'/shopDetails'} className="nav-item nav-link">Shop Detail</NavLink>
                                 <NavLink to={'/counter'} className="nav-item nav-link">Counter</NavLink>
                                 <NavLink to={'/priceSlider'} className="nav-item nav-link">Price Slider</NavLink>
 
