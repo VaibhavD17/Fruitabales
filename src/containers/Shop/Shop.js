@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../../redux/Slice/categories.slice';
 import { getSubcategories } from '../../redux/Slice/subcategories.slice';
@@ -6,6 +6,7 @@ import { getProduct } from '../../redux/Slice/product.slice';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import { NavLink } from 'react-router-dom';
+import { ThemeContext } from '../../context/ThemeContext';
 
 
 function Shop(props) {
@@ -20,6 +21,7 @@ function Shop(props) {
 
     const product = useSelector(state => state.products)
 
+    const theme = useContext(ThemeContext)
 
     const hendleSearchSort = () => {
 
@@ -113,7 +115,7 @@ function Shop(props) {
             {/* Fruits Shop Start*/}
             <div className="container-fluid fruite py-5">
                 <div className="container py-5">
-                    <h1 className="mb-4">Fresh fruits shop</h1>
+                    <h1 className={`${theme.theme}-header mb-4`}>Fresh fruits shop</h1>
                     <div className="row g-4">
                         <div className="col-lg-12">
                             <div className="row g-4">
@@ -126,7 +128,7 @@ function Shop(props) {
                                 <div className="col-6" />
                                 <div className="col-xl-3">
                                     <div className="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
-                                        <label htmlFor="fruits">Default Sorting:</label>
+                                        <label htmlFor="fruits" className={`${theme.theme}-selection`}>Default Sorting:</label>
                                         <select id="fruits" name="fruitlist" className="border-0 form-select-sm bg-light me-3" form="fruitform" onChange={(e) => setSort(e.target.value)}>
                                             <option value="0">-- Select Sort --</option>
                                             <option value="az">Title: A to Z</option>
@@ -142,7 +144,7 @@ function Shop(props) {
                                     <div className="row g-4">
                                         <div className="col-lg-12">
                                             <div className="mb-3">
-                                                <h4>Categories</h4>
+                                                <h4 className={`${theme.theme}-header`}>Categories</h4>
                                                 <ul className="list-unstyled fruite-categorie">
 
                                                     <li>
@@ -202,9 +204,9 @@ function Shop(props) {
 
                                             </div>
                                         </div>
-                                        <div className="col-lg-12">
-                                            <h4 className="mb-3">Featured products</h4>
-                                            <div className="d-flex align-items-center justify-content-start">
+                                        <div className={`${theme.theme}-header col-lg-12`}>
+                                            <h4 className={`${theme.theme}-header mb-3`}>Featured products</h4>
+                                            <div className={`${theme.theme}-header d-flex align-items-center justify-content-start`}>
                                                 <div className="rounded me-4" style={{ width: 100, height: 100 }}>
                                                     <img src="img/featur-1.jpg" className="img-fluid rounded" alt />
                                                 </div>
@@ -265,8 +267,8 @@ function Shop(props) {
                                                 <a href="#" className="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew More</a>
                                             </div>
                                         </div>
-                                        <div className="col-lg-12">
-                                            <div className="position-relative">
+                                        <div  className="col-lg-12">
+                                            <div className={`${theme.theme}-shop-banner position-relative `}>
                                                 <img src="img/banner-fruits.jpg" className="img-fluid w-100 rounded" alt />
                                                 <div className="position-absolute" style={{ top: '50%', right: 10, transform: 'translateY(-50%)' }}>
                                                     <h3 className="text-secondary fw-bold">Fresh <br /> Fruits <br /> Banner</h3>
@@ -280,9 +282,9 @@ function Shop(props) {
 
                                         {
                                             finalData.map((v) => (
-                                                <div className="col-md-6 col-lg-6 col-xl-4" >
+                                                <div className={`${theme.theme}-header col-md-6 col-lg-6 col-xl-4`}>
                                                     <NavLink to={`/shopDetails/${v.id}`}>
-                                                        <div className="rounded position-relative fruite-item">
+                                                        <div className="rounded position-relative fruite-item shop-header">
                                                             <div className="fruite-img">
                                                                 <img src="img/fruite-item-5.jpg" className="img-fluid w-100 rounded-top" alt />
                                                             </div>
@@ -291,7 +293,7 @@ function Shop(props) {
                                                                 <h4>{v.product}</h4>
                                                                 <p>{v.productDesc}</p>
                                                                 <div className="d-flex justify-content-between flex-lg-wrap">
-                                                                    <p className="text-dark fs-5 fw-bold mb-0">{v.price}</p>
+                                                                    <p className=" fs-5 fw-bold mb-0">{v.price}</p>
                                                                     <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
                                                                 </div>
                                                             </div>

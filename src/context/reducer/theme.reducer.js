@@ -1,10 +1,11 @@
+import { THEME_TOOGALE } from "../ActionType";
 
 
 
-export const themeReducer = (state, action) => {
+export const ThemeReducer = (state, action) => {
     switch (action.type) {
-        case THEME_TOGGAL:
-            return state.theme = action.paylod
+        case THEME_TOOGALE:
+            return {theme : action.payload}
         default:
             return state;
     }

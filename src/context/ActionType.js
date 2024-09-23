@@ -1,2 +1,2 @@
 
-export const THEME_TOGGAL= 'THEME_TOGGAL'
+export const THEME_TOOGALE= 'THEME_TOOGALE'

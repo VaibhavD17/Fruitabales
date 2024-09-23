@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { addtoCart } from '../../redux/Slice/cart.slice';
@@ -12,6 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { nnNO } from '@mui/material/locale';
 import { green, red } from '@mui/material/colors';
+import { ThemeContext } from '../../context/ThemeContext';
 
 
 function ShopDetails(props) {
@@ -20,7 +21,7 @@ function ShopDetails(props) {
     const [starRating, setStarReting] = useState(1)
     const [disable, setdisable] = useState(false);
     const [update, setUpdate] = useState(false)
-
+    const theme = useContext(ThemeContext)
 
     
     const product = useSelector(state => state.products)
@@ -140,9 +141,9 @@ console.log(values);
                                     </div>
                                 </div>
                                 <div className="col-lg-6">
-                                    <h4 className="fw-bold mb-3">{fData.product}</h4>
+                                    <h4 className={`${theme.theme}-header fw-bold mb-3`}>{fData.product}</h4>
                                     <p className="mb-3">Category: Vegetables</p>
-                                    <h5 className="fw-bold mb-3">3,35 $</h5>
+                                    <h5 className={`${theme.theme}-header fw-bold mb-3`}>3,35 $</h5>
                                     <div className="d-flex mb-4">
                                         <i className="fa fa-star text-secondary" />
                                         <i className="fa fa-star text-secondary" />
@@ -180,10 +181,10 @@ console.log(values);
                                                 Susp endisse ultricies nisi vel quam suscipit </p>
                                             <p>Sabertooth peacock flounder; chain pickerel hatchetfish, pencilfish snailfish filefish Antarctic
                                                 icefish goldeye aholehole trumpetfish pilot fish airbreathing catfish, electric ray sweeper.</p>
-                                            <div className="px-2">
+                                            <div className={`${theme.theme}-descrip px-2`}>
                                                 <div className="row g-4">
                                                     <div className="col-6">
-                                                        <div className="row bg-light align-items-center text-center justify-content-center py-2">
+                                                        <div className="row align-items-center text-center justify-content-center py-2">
                                                             <div className="col-6">
                                                                 <p className="mb-0">Weight</p>
                                                             </div>
@@ -199,7 +200,7 @@ console.log(values);
                                                                 <p className="mb-0">Agro Farm</p>
                                                             </div>
                                                         </div>
-                                                        <div className="row bg-light text-center align-items-center justify-content-center py-2">
+                                                        <div className="row  text-center align-items-center justify-content-center py-2">
                                                             <div className="col-6">
                                                                 <p className="mb-0">Quality</p>
                                                             </div>
@@ -215,7 +216,7 @@ console.log(values);
                                                                 <p className="mb-0">Healthy</p>
                                                             </div>
                                                         </div>
-                                                        <div className="row bg-light text-center align-items-center justify-content-center py-2">
+                                                        <div className="row text-center align-items-center justify-content-center py-2">
                                                             <div className="col-6">
                                                                 <p className="mb-0">Min Weight</p>
                                                             </div>
@@ -228,7 +229,7 @@ console.log(values);
                                             </div>
                                         </div>
 
-                                        <div className="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+                                        <div className={`${theme.theme}-header tab-pane`} id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
                                             {
                                                 reviews.review.filter((v) => v.pid === id && v.status === 'Active').map((v) => (
                                                     <div className="d-flex">
@@ -247,7 +248,7 @@ console.log(values);
                                                                     />
                                                                 </div>
                                                             </div>
-                                                            <p className="text-dark">{v.review}</p>
+                                                            <p>{v.review}</p>
                                                         </div>
                                                         {
                                                             v.uid === 'ddd' ?
@@ -293,7 +294,7 @@ console.log(values);
                                     </div>
                                 </div>
 
-                                <h4 className="mb-5 fw-bold">Leave a Reply</h4>
+                                <h4 className={`${theme.theme}-header mb-5 fw-bold`}>Leave a Reply</h4>
                                 <div className="row g-4">
                                     {
                                         <form onSubmit={handleSubmit}>
@@ -403,7 +404,7 @@ console.log(values);
                                         <span id="search-icon-1" className="input-group-text p-3"><i className="fa fa-search" /></span>
                                     </div>
                                     <div className="mb-4">
-                                        <h4>Categories</h4>
+                                        <h4 className={`${theme.theme}-header`}>Categories</h4>
                                         <ul className="list-unstyled fruite-categorie">
                                             <li>
                                                 <div className="d-flex justify-content-between fruite-name">
@@ -438,8 +439,8 @@ console.log(values);
                                         </ul>
                                     </div>
                                 </div>
-                                <div className="col-lg-12">
-                                    <h4 className="mb-4">Featured products</h4>
+                                <div className={`${theme.theme}-header col-lg-12`}>
+                                    <h4 className={`${theme.theme}-header mb-4`} >Featured products</h4>
                                     <div className="d-flex align-items-center justify-content-start">
                                         <div className="rounded" style={{ width: 100, height: 100 }}>
                                             <img src="img/featur-1.jpg" className="img-fluid rounded" alt="Image" />
@@ -569,7 +570,7 @@ console.log(values);
                             </div>
                         </div>
                     </div>
-                    <h1 className="fw-bold mb-0">Related products</h1>
+                    <h1 className={`${theme.theme}-header fw-bold mb-0`}>Related products</h1>
                     <div className="vesitable">
                         <div className="owl-carousel vegetable-carousel justify-content-center">
                             <div className="border border-primary rounded position-relative vesitable-item">
