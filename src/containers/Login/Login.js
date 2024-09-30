@@ -23,22 +23,46 @@ function Login(props) {
     if (type === 'login') {
         initialValues = {
             email: '',
-            password: ''
+            password: '',
+            confPassword: '',
         }
         loginSchema = object({
             email: string().email("Please Enter Email").required(),
-            password: number().required("Please Enter Password")
+            password: string()
+                .required("Please Enter Password")
+                .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, "Password must be minimum 8 latters - alphabet(upar and Lower Case), number and special Symbol."),
+            confPassword: string()
+                .required("Please Enter Conform Password.")
+                .test('confPassword', "Conform Password Not match", function (value) {
+                    if (value === this.parent.password) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
         });
     } else if (type === 'signup') {
         initialValues = {
             name: '',
             email: '',
-            password: ''
+            password: '',
+            confPassword: '',
         }
         loginSchema = object({
             name: string().required("Please Enter name"),
             email: string().email("Please Enter Email").required(),
-            password: number().required("Please Enter Password")
+            password: string()
+                .required("Please Enter Password")
+                .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, "Password must be minimum 8 latters - alphabet(upar and Lower Case), number and special Symbol."),
+            confPassword: string()
+                .required("Please Enter Conform Password.")
+                .test('confPassword', "Conform Password Not match", function (value) {
+                    if (value === this.parent.password) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
         });
     } else if (type === 'forgotpassword') {
         initialValues = {
@@ -99,15 +123,8 @@ function Login(props) {
                             value={values.name}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            error={errors.name && touched.name}
-                            helperText={errors.name && touched.name ? errors.name : ''}
                         />
-                        <span 
-                        style={{
-                            color : 'red'
-                        }}
-                        >
-                            {errors.name}</span>
+                        {errors.name && touched.name ? <span className='validationError'>{errors.name}</span> : null}
                     </FormGroup>
                         :
                         null
@@ -127,12 +144,8 @@ function Login(props) {
                         value={values.email}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={errors.email && touched.email}
-                        helperText={errors.email && touched.email ? errors.email : ''}
                     />
-                    <span style={{
-                            color : 'red'
-                        }}>{errors.email}</span>
+                    {errors.email && touched.email ? <span className='validationError'>{errors.email}</span> : null}
                 </FormGroup>
                 {
                     type === 'forgotpassword' ? null : <FormGroup>
@@ -140,20 +153,29 @@ function Login(props) {
                             Enter Your Password
                         </Label>
                         <Input
-                            id="email"
                             name="password"
                             placeholder="Password"
                             type="password"
                             value={values.password}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            error={errors.password && touched.password}
-                            helperText={errors.password && touched.password ? errors.password : ''}
                         />
-                        <span style={{
-                            color : 'red'
-                        }}>{errors.password}</span>
+                        {errors.password && touched.password ? <span className='validationError'>{errors.password}</span> : null}
+                        <br />
+                        <Label for="examplePassword">
+                            confirm Your Password
+                        </Label>
+                        <Input
+                            name="confPassword"
+                            placeholder="Confirm Password"
+                            type="password"
+                            value={values.confPassword}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                        />
+                        {errors.confPassword && touched.confPassword ? <span className='validationError'>{errors.confPassword}</span> : null}
                     </FormGroup>
+
 
                 }
 

@@ -14,12 +14,14 @@ const cartSlice = createSlice({
     reducers: {
         addtoCart: (state, action) => {
 
-            const pid = action.payload
-            
+            const pid = action.payload.id
+            const amount = action.payload.price
+
             const index = state.cart.findIndex((v) => v.pid === pid)
 
+
             if (index === -1) {
-                state.cart.push({pid, qty:1})
+                state.cart.push({ pid, amount: amount, qty: 1 })
             } else {
                 state.cart[index].qty++
             }
@@ -32,27 +34,27 @@ const cartSlice = createSlice({
 
             state.cart[index].qty++;
         },
-           
+
         decrement: (state, action) => {
             const pid = action.payload;
 
             const index = state.cart.findIndex((v) => v.pid === pid)
 
-            if (state.cart[index].qty > 1 ) {
+            if (state.cart[index].qty > 1) {
                 state.cart[index].qty = state.cart[index].qty - 1;
             }
 
         },
-        
+
         deleteqty: (state, action) => {
             const pid = action.payload;
 
             const index = state.cart.findIndex((v) => v.pid === pid)
 
-           const fData =  state.cart.filter((v) => v != state.cart[index]);
+            const fData = state.cart.filter((v) => v != state.cart[index]);
 
-           state.cart = fData;
-            
+            state.cart = fData;
+
         }
 
     }

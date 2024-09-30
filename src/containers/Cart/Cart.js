@@ -6,6 +6,9 @@ import { getCoupon } from '../../redux/Slice/coupon.slice';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
+import { useContext } from 'react';
+import { ThemeContext } from '../../context/ThemeContext';
+import { NavLink } from 'react-router-dom';
 
 function Cart(props) {
 
@@ -13,8 +16,7 @@ function Cart(props) {
     const product = useSelector(state => state.products);
     const coupon = useSelector(state => state.coupon);
     const [discount, setDiscount] = useState('');
-
-    console.log(discount);
+    const theme = useContext(ThemeContext)
 
 
     useEffect(() => {
@@ -24,22 +26,18 @@ function Cart(props) {
 
     const fData = cart.cart.map((v) => {
         const pData = product.products.find((v1) => v1.id === v.pid);
-        console.log(pData);
 
+        console.log(pData);
+        
         return { ...pData, qty: v.qty }
 
     })
 
     const subtotal = fData.reduce((acc, v) => acc + (v.price * v.qty), 0);
 
-    
     const totalDiscount = discount ? (subtotal * discount) / 100 : 0;
 
     const total = subtotal - totalDiscount;
-
-
-    
-    console.log(subtotal, totalDiscount, total);
 
 
     const dispatch = useDispatch();
@@ -65,15 +63,10 @@ function Cart(props) {
 
                 coupon.coupon.map((v) => {
                     if (v.code === item) {
-
                         flag = true;
-                        // setFieldValue("code", v.discount)
                         setDiscount(v.discount);
                     }
                 })
-
-                console.log(flag);
-
 
                 if (flag) {
 
@@ -81,9 +74,6 @@ function Cart(props) {
                 } else {
                     return false;
                 }
-
-
-
             }),
     });
 
@@ -139,7 +129,7 @@ function Cart(props) {
                             <tbody>
                                 {
                                     fData.map((v) => (
-                                        <tr>
+                                        <tr className={`${theme.theme}-cart-data`}>
                                             <th scope="row">
                                                 <div className="d-flex align-items-center">
                                                     <img src="img/vegetable-item-3.png" className="img-fluid me-5 rounded-circle" style={{ width: 80, height: 80 }} alt />
@@ -158,7 +148,7 @@ function Cart(props) {
                                                             <i className="fa fa-minus" />
                                                         </button>
                                                     </div>
-                                                    <input type="text" className="form-control form-control-sm text-center border-0" value={v.qty} />
+                                                    <input type="text" className={`${theme.theme}-cart-input form-control form-control-sm text-center border-0`} value={v.qty} />
                                                     <div className="input-group-btn">
                                                         <button onClick={() => hendleincrement(v.id)} className="btn btn-sm btn-plus rounded-circle bg-light border">
                                                             <i className="fa fa-plus" />
@@ -184,7 +174,6 @@ function Cart(props) {
                     </div>
                     <div className="mt-5">
                         <Form className='py-5' onSubmit={handleSubmit}>
-                            {/* <input type="text" className="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code"  /> */}
                             <Input
                                 className="border-0 border-bottom rounded me-5 py-3 mb-4"
                                 id="code"
@@ -194,8 +183,6 @@ function Cart(props) {
                                 value={values.code}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                            // error={errors.code && touched.code}
-                            // helperText={errors.code && touched.code ? errors.code : ''}
                             />
                             <span
                                 style={{
@@ -212,7 +199,7 @@ function Cart(props) {
                         <div className="col-8" />
                         <div className="col-sm-8 col-md-7 col-lg-6 col-xl-4">
 
-                            <div className="bg-light rounded">
+                            <div className={`${theme.theme}-cart-coupon rounded`}>
                                 <div className="p-4">
                                     <h1 className="display-6 mb-4">Cart <span className="fw-normal">Total</span></h1>
                                     <div className="d-flex justify-content-between mb-4">
@@ -221,27 +208,25 @@ function Cart(props) {
                                     </div>
                                     <div className="d-flex justify-content-between mb-4">
                                         <h5 className="mb-0 me-4">Discount:</h5>
-                                        <p className="mb-0">{isSubmitting && discount ? discount +"%" : 0}</p>
+                                        <p className="mb-0">{isSubmitting && discount ? discount + "%" : 0}</p>
                                     </div>
                                     <div className="d-flex justify-content-between mb-4">
                                         <h5 className="mb-0 me-4">TotalDiscount:</h5>
                                         <p className="mb-0">{totalDiscount}</p>
                                     </div>
-                                    {/* <div className="d-flex justify-content-between">
-                                        <h5 className="mb-0 me-4">Shipping</h5>
-                                        <div className>
-                                            <p className="mb-0">Flat rate: $3.00</p>
-                                        </div>
-                                    </div> */}
-                                    {/* <p className="mb-0 text-end">Shipping to Ukraine.</p> */}
-                
                                 </div>
                                 <div className="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                     <h5 className="mb-0 ps-4 me-4">Total</h5>
-                                    
+
                                     <p className="mb-0 pe-4">{total}</p>
                                 </div>
-                                <button className="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
+                                <NavLink
+                                    to={{pathname :"/checkout"}}
+                                    state={{discount: discount}}
+
+                                >
+                                    <button className="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
+                                </NavLink>
                             </div>
                         </div>
                     </div>

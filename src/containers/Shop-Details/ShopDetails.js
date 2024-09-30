@@ -34,20 +34,19 @@ function ShopDetails(props) {
 
     const hendledisable = () => {
         reviews.review.map((v) => {
-            console.log(v, v.pid === id, v.uid === 'ddd' , v.status === "Active");
             
             if (v.pid === id && v.uid === 'ddd') {
                 setdisable(true)
             } 
-        })
-
-        console.log(disable);
-        
+        })        
     }
 
 
-    const hendleCart = (id) => {
-        dispatch(addtoCart(id))
+    const hendleCart = (data) => {
+        dispatch(addtoCart(data))
+
+        console.log(data);
+        
     }
 
     const hendleRating = async (data) => {
@@ -97,11 +96,8 @@ function ShopDetails(props) {
             }
 
             setStarReting(1)
-
             resetForm();
-
             setUpdate(false)
-
             setdisable(true)
 
 
@@ -166,7 +162,7 @@ console.log(values);
                                             </button>
                                         </div>
                                     </div>
-                                    <a href="#" onClick={() => hendleCart(fData.id)} className="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
+                                    <a href="#" onClick={() => hendleCart(fData)} className="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
                                 </div>
                                 <div className="col-lg-12">
                                     <nav>
@@ -240,6 +236,7 @@ console.log(values);
                                                                 <h5>{v.name}</h5>
                                                                 <div className="d-flex mb-3" style={{ marginLeft: 20 }}>
                                                                     <Rating
+                                                                    className={`${theme.theme}-rate`}
                                                                         id='rate'
                                                                         name="rate"
                                                                         size="medium"
@@ -376,6 +373,7 @@ console.log(values);
                                                     <div className="d-flex align-items-center">
                                                         <p className="mb-0 me-3">Please rate:</p>
                                                         <Rating
+                                                        className={`${theme.theme}-rate`}
                                                             id='rate'
                                                             name='rate'
                                                             size="medium"

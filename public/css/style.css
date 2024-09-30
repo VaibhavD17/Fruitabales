@@ -538,16 +538,16 @@
     color: white !important;
 }
 
-.light .featurs-item { 
+.light .featurs-item {
     background: #F4F6F8 !important;
 }
 
-.nav-pills > .nav-item > .light {
+.nav-pills>.nav-item>.light {
     background: #F4F6F8 !important;
-    color: #45595b !important ;
+    color: #45595b !important;
 }
 
-.nav-pills > .nav-item > .dark {
+.nav-pills>.nav-item>.dark {
     background: #27283C !important;
     color: #9a9c9f !important;
 }
@@ -556,27 +556,27 @@
     color: white;
 }
 
-.dark > .container > .row .rounded {
+.dark>.container>.row .rounded {
     background: #27283C !important;
 }
 
-.light > .container > .row .rounded {
+.light>.container>.row .rounded {
     background: #F4F6F8 !important;
 }
 
-.dark > .container > .rounded .rounded{
+.dark>.container>.rounded .rounded {
     background: #27283C !important;
 }
 
-.dark > .container > .rounded .rounded h1{
+.dark>.container>.rounded .rounded h1 {
     color: white;
 }
 
-.dark > .container > .row .h5{
+.dark>.container>.row .h5 {
     color: white;
 }
 
-.dark > .container > .row .mb-3{
+.dark>.container>.row .mb-3 {
     color: white;
 }
 
@@ -586,7 +586,7 @@
 }
 
 .light .fruite-item .rounded-bottom .light {
- color: #45595b !important;
+    color: #45595b !important;
 }
 
 
@@ -608,8 +608,67 @@
 
 .dark-header .shop-header h4 {
     color: white;
-}  
+}
 
 .dark-descrip p {
     color: white;
+}
+
+.dark-rate {
+    /* border: 1px solid white !important; */
+    background: gray !important;
+}
+
+.dark-cart-input {
+    background: none !important;
+    color: white !important;
+}
+
+.dark-cart-data {
+    color: white !important;
+}
+
+.dark-cart-coupon {
+    background: #27283C !important;
+
+}
+
+.dark-cart-coupon h1 {
+    color: white !important;
+}
+
+.dark-cart-coupon h5 {
+    color: white !important;
+}
+
+.light-cart-coupon {
+    background: #F4F6F8 !important;
+}
+
+.validationError {
+    color: red;
+}
+
+.checkmark {
+    color: #9ABC66;
+    font-size: 100px;
+    line-height: 200px;
+    margin-left: 50px;
+}
+
+.Ordercard {
+        padding: 60px;
+        border-radius: 4px;
+        box-shadow: 0 2px 3px #C8D0D8;
+        display: inline-block;
+        margin: 0 auto;
+}
+
+.dark .Ordercard {
+    background: #27283C;
+       
+}
+.light .Ordercard {
+    background: #F4F6F8;
+       
 }

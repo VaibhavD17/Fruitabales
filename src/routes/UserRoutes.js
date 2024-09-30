@@ -14,6 +14,7 @@ import Counter from '../containers/Counter/Counter';
 import PriceSlider from '../containers/Price-Slider/PriceSlider';
 import Login from '../containers/Login/Login';
 import { ThemeContext } from '../context/ThemeContext';
+import OrderSuccess from '../containers/OrderSuccess';
 
 function UserRoutes(props) {
     const theme = useContext(ThemeContext)
@@ -32,6 +33,8 @@ function UserRoutes(props) {
                 <Route path='counter' element={<Counter />}></Route>
                 <Route path='priceSlider' element={<PriceSlider />}></Route>
                 <Route path='login' element={<Login />}></Route>
+                <Route path='orderSuccess' element={<OrderSuccess />}></Route>
+
             </Routes>
             <Footers />
         </div>
