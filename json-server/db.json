@@ -216,6 +216,69 @@
     }
   ],
   "checkout": [
-   
+    {
+      "id": "b75c",
+      "user_id": "vaibhav",
+      "cart": [
+        {
+          "pid": "d46e",
+          "amount": "100",
+          "qty": 1
+        },
+        {
+          "pid": "ed08",
+          "amount": "800",
+          "qty": 1
+        }
+      ],
+      "biiling_details": {
+        "fname": "vaibhav",
+        "Lname": "Gohil",
+        "address": "WADgawd aksgduiashd",
+        "city": "Surat",
+        "zipCode": "364270",
+        "country": "India",
+        "mobile": "1234567890",
+        "email": "vaibhav9723142179@gmail.com",
+        "payment_method": "Cash On Delivery"
+      },
+      "total_amout": 900,
+      "discount": 20,
+      "bill_amout": 720,
+      "createdAt": "2024-09-30T06:33:34.391Z",
+      "updatedAt": "2024-09-30T06:33:34.391Z"
+    },
+    {
+      "id": "e2af",
+      "user_id": "vaibhav",
+      "cart": [
+        {
+          "pid": "d46e",
+          "amount": "100",
+          "qty": 1
+        },
+        {
+          "pid": "ed08",
+          "amount": "800",
+          "qty": 1
+        }
+      ],
+      "biiling_details": {
+        "fname": "Rahul",
+        "Lname": "Gohil",
+        "address": "jasgvd jgavsdhgvsa",
+        "city": "palitana",
+        "zipCode": "364270",
+        "country": "India",
+        "mobile": "7567058384",
+        "email": "babababab@123",
+        "payment_method": "Cash On Delivery"
+      },
+      "total_amout": 900,
+      "discount": 50,
+      "bill_amout": 450,
+      "createdAt": "2024-10-01T06:14:24.841Z",
+      "updatedAt": "2024-10-01T06:14:24.841Z"
+    }
   ]
 }

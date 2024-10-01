@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import { NavLink } from 'react-router-dom';
 import { ThemeContext } from '../../context/ThemeContext';
+import { addtoCart } from '../../redux/Slice/cart.slice';
 
 
 function Shop(props) {
@@ -22,6 +23,14 @@ function Shop(props) {
     const product = useSelector(state => state.products)
 
     const theme = useContext(ThemeContext)
+
+    const hendleCart = (data) => {
+        dispatch(addtoCart(data))
+
+        console.log(data);
+
+    }
+
 
     const hendleSearchSort = () => {
 
@@ -267,7 +276,7 @@ function Shop(props) {
                                                 <a href="#" className="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew More</a>
                                             </div>
                                         </div>
-                                        <div  className="col-lg-12">
+                                        <div className="col-lg-12">
                                             <div className={`${theme.theme}-shop-banner position-relative `}>
                                                 <img src="img/banner-fruits.jpg" className="img-fluid w-100 rounded" alt />
                                                 <div className="position-absolute" style={{ top: '50%', right: 10, transform: 'translateY(-50%)' }}>
@@ -283,22 +292,24 @@ function Shop(props) {
                                         {
                                             finalData.map((v) => (
                                                 <div className={`${theme.theme}-header col-md-6 col-lg-6 col-xl-4`}>
-                                                    <NavLink to={`/shopDetails/${v.id}`}>
-                                                        <div className="rounded position-relative fruite-item shop-header">
+
+                                                    <div className="rounded position-relative fruite-item shop-header">
+                                                        <NavLink to={`/shopDetails/${v.id}`}>
                                                             <div className="fruite-img">
                                                                 <img src="img/fruite-item-5.jpg" className="img-fluid w-100 rounded-top" alt />
                                                             </div>
-                                                            <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>{categorie.categories.find((c) => v.category === c.id)?.name}</div>
-                                                            <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                                <h4>{v.product}</h4>
-                                                                <p>{v.productDesc}</p>
-                                                                <div className="d-flex justify-content-between flex-lg-wrap">
-                                                                    <p className=" fs-5 fw-bold mb-0">{v.price}</p>
-                                                                    <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
-                                                                </div>
+                                                        </NavLink>
+                                                        <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>{categorie.categories.find((c) => v.category === c.id)?.name}</div>
+                                                        <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                            <h4>{v.product}</h4>
+                                                            <p>{v.productDesc}</p>
+                                                            <div className="d-flex justify-content-between flex-lg-wrap">
+                                                                <p className=" fs-5 fw-bold mb-0">{v.price}</p>
+                                                                <a onClick={() => hendleCart(v)} href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
                                                             </div>
                                                         </div>
-                                                    </NavLink>
+                                                    </div>
+
                                                 </div>
                                             ))
                                         }

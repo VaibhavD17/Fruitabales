@@ -3,21 +3,16 @@ import { object, string, number, date, InferType, array, boolean } from 'yup';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { addBilling, getBilling } from '../../redux/Slice/checkout.slice';
-import { NavLink, useLocation } from "react-router-dom"
+import { NavLink, useLocation, useNavigate } from "react-router-dom"
 
 function Checkout(props) {
 
     const cart = useSelector(state => state.cart);
     const product = useSelector(state => state.products);
-    const coupon = useSelector(state => state.coupon);
 
 
     const dispatch = useDispatch();
     const location = useLocation();
-
-    console.log(location.state.discount);
-
-
 
 
     const fData = cart.cart.map((v) => {
@@ -26,8 +21,6 @@ function Checkout(props) {
         return { ...pData, qty: v.qty }
 
     })
-
-    console.log(cart.cart);
 
 
     const getData = () => {
@@ -42,12 +35,6 @@ function Checkout(props) {
     const subtotal = fData.reduce((acc, v) => acc + (v.price * v.qty), 0);
     const discount = (subtotal * location.state.discount) / 100
     const total_amout = subtotal - discount
-
-    console.log(subtotal, discount, total_amout);
-
-
-
-
 
 
     let checkoutSchema = object({
@@ -97,6 +84,8 @@ function Checkout(props) {
         cod: boolean().oneOf([true], 'Please select payment method')
     });
 
+    const navigate = useNavigate();
+
     const formik = useFormik({
         initialValues: {
             fname: '',
@@ -118,16 +107,17 @@ function Checkout(props) {
                 total_amout: subtotal,
                 discount: parseInt(location.state.discount, "%"),
                 bill_amout: total_amout,
+                createdAt: new Date(),
+                updatedAt: new Date()
             }))
+
+            navigate("/orderSuccess")
+
             resetForm()
         },
     });
 
     const { handleBlur, handleChange, handleSubmit, values, errors, touched, resetForm } = formik
-
-
-    console.log(errors, values);
-
 
     return (
         <div>
@@ -368,9 +358,9 @@ function Checkout(props) {
                                     </div>
                                 </div>
                                 <div className="row g-4 text-center align-items-center justify-content-center pt-4">
-                                    <NavLink to={`/orderSuccess`}>
-                                        <button type="submit" className="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Place Order</button>
-                                    </NavLink>
+
+                                    <button type="submit" className="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Place Order</button>
+
                                 </div>
                             </div>
                         </div>

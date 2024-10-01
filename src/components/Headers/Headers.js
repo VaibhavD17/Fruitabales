@@ -50,8 +50,8 @@ function Headers(props) {
                             <div className="navbar-nav mx-auto">
                                 <NavLink to={'/'} className="nav-item nav-link active">Home</NavLink>
                                 <NavLink to={'/shop'} className="nav-item nav-link">Shop</NavLink>
-                                <NavLink to={'/counter'} className="nav-item nav-link">Counter</NavLink>
-                                <NavLink to={'/priceSlider'} className="nav-item nav-link">Price Slider</NavLink>
+                                {/* <NavLink to={'/counter'} className="nav-item nav-link">Counter</NavLink> */}
+                                {/* <NavLink to={'/priceSlider'} className="nav-item nav-link">Price Slider</NavLink> */}
 
                                 <div className="nav-item dropdown">
                                     <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
@@ -64,6 +64,7 @@ function Headers(props) {
                                     </div>
                                 </div>
                                 <NavLink to={'/contacts'} className="nav-item nav-link">Contact</NavLink>
+                                <NavLink to={'/myaccount'} className="nav-item nav-link">My Account</NavLink>
                             </div>
                             <div className="d-flex m-3 me-0">
                                 

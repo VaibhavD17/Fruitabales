@@ -15,6 +15,8 @@ import PriceSlider from '../containers/Price-Slider/PriceSlider';
 import Login from '../containers/Login/Login';
 import { ThemeContext } from '../context/ThemeContext';
 import OrderSuccess from '../containers/OrderSuccess';
+import MyAccount from '../containers/My-Account/MyAccount';
+import Order from '../containers/Order/Order';
 
 function UserRoutes(props) {
     const theme = useContext(ThemeContext)
@@ -34,6 +36,8 @@ function UserRoutes(props) {
                 <Route path='priceSlider' element={<PriceSlider />}></Route>
                 <Route path='login' element={<Login />}></Route>
                 <Route path='orderSuccess' element={<OrderSuccess />}></Route>
+                <Route path='myaccount' element={<MyAccount />}></Route>
+                <Route path='order' element={<Order />}></Route>
 
             </Routes>
             <Footers />
