@@ -678,7 +678,38 @@
     --text-primary: #207ba1;
 }
 
-.accountDetails {
+.container-fluid.account-wrapper {
+    background-color: #f8f9fa;
+}
+
+.account-banner .inner-banner {
+    background: #f2f2f2;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    gap: 20px;
+}
+
+.account-link {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.account-link:hover {
+    background-color: #0056b3;
+}
+
+
+/* .accountDetails {
     height: 100px;
     width: 300px;
     text-align: center;
@@ -699,14 +730,62 @@
 
 .accountDetails:hover {
     background-color: #FFB524;
-}
+} */
 
+ /* Styles for the container */
 .orderData {
-    width: 100%;
-    height: 50px;
-    background-color: #207ba1;
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
 }
 
-.orderDetail {
-    background:gainsboro;
+/* Styles for each order detail section */
+.orderSection {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
 }
+
+/* Flexbox to arrange product details */
+.orderDetail-Data {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* Individual detail styling */
+.dataOrder {
+    flex: 1;
+    padding: 0 10px;
+}
+
+/* Product name */
+.productname {
+    font-weight: bold;
+}
+
+/* Billing amount styling */
+.bill-amount-order {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* View Order button styling */
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+

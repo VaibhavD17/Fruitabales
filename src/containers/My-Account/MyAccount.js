@@ -15,38 +15,31 @@ function MyAccount(props) {
                     <li className="breadcrumb-item active text-white">My Account</li>
                 </ol>
             </div>
-            {/* Single Page Header End */}
-            <section className="container-fluid tg-may-account-wrapp tg py-5">
+            <section className="container-fluid account-wrapper py-5">
                 <div className="inner">
-                    <div className="tg-account">
-                        {/* Accont banner start */}
-                        <div className="account-banner">
-                            <div className="inner-banner">
-                                <div className="container">
-
-                                    {/* Row end */}
-                                    {/* Navbar Start */}
-                                    <div className='d-flex'>
+                    <div className="account-banner">
+                        <div className="inner-banner">
+                            <div className="container">
+                                {/* Navbar Start */}
+                                <div className="navbar d-flex justify-content-center">
                                     <NavLink to={'/order'}>
-                                        <div className='d-flex accountDetails'>
-                                                <a>My Order</a>
+                                        <div className="account-link">
+                                            My Order
                                         </div>
-                                        </NavLink>
-                                        
-                                        <NavLink>
-                                        <div className='d-flex accountDetails'>
-                                            <a>Account Details</a>
-                                    </div>
+                                    </NavLink>
+                                    <NavLink to={'/account-details'}>
+                                        <div className="account-link">
+                                            Account Details
+                                        </div>
                                     </NavLink>
                                 </div>
                                 {/* Navbar End */}
                             </div>
                         </div>
                     </div>
-                    {/* Banner end   */}
                 </div>
-        </div>
-            </section >
+            </section>
+
         </div >
 
     );

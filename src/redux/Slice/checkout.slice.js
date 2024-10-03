@@ -18,7 +18,12 @@ export const getBilling = createAsyncThunk(
 
             const response = await axios.get(BASC_URL + "checkout")
 
-            return response.data
+            const fData = response.data.filter((v) => {
+                if (v.user_id === 'vaibhav') {
+                    return v;
+                }
+            })
+            return fData
         } catch (error) {
             console.log(error);
             
