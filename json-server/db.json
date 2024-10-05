@@ -217,68 +217,42 @@
   ],
   "checkout": [
     {
-      "id": "b75c",
+      "id": "13d6",
       "user_id": "vaibhav",
       "cart": [
         {
-          "pid": "d46e",
-          "amount": "100",
-          "qty": 1
+          "pid": "fe54",
+          "amount": "20000",
+          "qty": 3
         },
         {
-          "pid": "ed08",
-          "amount": "800",
-          "qty": 1
+          "pid": "b9f1",
+          "amount": "10000",
+          "qty": 5
+        },
+        {
+          "pid": "d46e",
+          "amount": "100",
+          "qty": 10
         }
       ],
       "biiling_details": {
         "fname": "vaibhav",
         "Lname": "Gohil",
-        "address": "WADgawd aksgduiashd",
+        "address": "jhe  q30u8370 ej q2ue08713 0eu iue0u13e",
         "city": "Surat",
-        "zipCode": "364270",
+        "zipCode": "395006",
         "country": "India",
-        "mobile": "1234567890",
+        "mobile": "7567058384",
         "email": "vaibhav9723142179@gmail.com",
         "payment_method": "Cash On Delivery"
       },
-      "total_amout": 900,
+      "total_amout": 111000,
       "discount": 20,
-      "bill_amout": 720,
-      "createdAt": "2024-09-30T06:33:34.391Z",
-      "updatedAt": "2024-09-30T06:33:34.391Z"
-    },
-    {
-      "id": "e2af",
-      "user_id": "vaibhav",
-      "cart": [
-        {
-          "pid": "d46e",
-          "amount": "100",
-          "qty": 1
-        },
-        {
-          "pid": "ed08",
-          "amount": "800",
-          "qty": 1
-        }
-      ],
-      "biiling_details": {
-        "fname": "Rahul",
-        "Lname": "Gohil",
-        "address": "jasgvd jgavsdhgvsa",
-        "city": "palitana",
-        "zipCode": "364270",
-        "country": "India",
-        "mobile": "7567058384",
-        "email": "babababab@123",
-        "payment_method": "Cash On Delivery"
-      },
-      "total_amout": 900,
-      "discount": 50,
-      "bill_amout": 450,
-      "createdAt": "2024-10-01T06:14:24.841Z",
-      "updatedAt": "2024-10-01T06:14:24.841Z"
+      "bill_amout": 88800,
+      "createdAt": "2024-10-04T05:43:13.332Z",
+      "updatedAt": "2024-10-04T05:43:13.332Z",
+      "status": "Pending"
     }
   ]
 }

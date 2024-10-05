@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBilling } from '../../redux/Slice/checkout.slice';
 import { getProduct } from '../../redux/Slice/product.slice';
+import { NavLink } from 'react-router-dom';
 
 function Order(props) {
     const orderData = useSelector(state => state.checkOut)
@@ -15,12 +16,8 @@ function Order(props) {
         );
     })
 
-    const handleViewDetails = (id) => {
-        console.log(id);
-        
-    };
-
-
+    console.log(fdata);
+    
 
     const getData = () => {
         dispatch(getBilling())
@@ -45,19 +42,33 @@ function Order(props) {
                 <div className='container'>
                     <div className='d-flex flex-column orderData'>
                         {orderData.checkOut.map((c) => (
-                            <div key={c.id} className='orderSection'>
+
+                            <div className='orderSection'>
                                 {fdata.map((v) => {
                                     const cartItem = c.cart.find(c1 => c1.pid === v.id);
                                     return (
-                                        <div key={v.id} className='d-flex orderDetail-Data'>
+                                        <div className='d-flex orderDetail-Data'>
                                             <div className='dataOrder productname'>{v.product}</div>
                                             <div className='dataOrder orderQuantity'>{cartItem ? cartItem.qty : 0}</div>
-                                            <div className='dataOrder orderPrice'>{cartItem ? `$${cartItem.amount}` : '$0'}</div>
+                                            <div className='dataOrder orderPrice'>{cartItem ? `$${cartItem.amount * cartItem.qty}` : '$0'}</div>
                                         </div>
                                     );
                                 })}
-                                <div className='bill-amount-order'>Billing Amount: ${c.bill_amout}</div>
-                                <button onClick={() => handleViewDetails(c.id)}>View Order Details</button>
+                                <div className='d-flex orderDetail-total'>
+                                    <div className='dataOrder'></div>
+                                    <div className='dataOrder'><strong>Total Quantity:</strong> {c.cart.reduce((acc, c1) => acc + c1.qty, 0)}</div>
+                                    <div className='dataOrder bill-amount-order'>
+                                        <div>Discount: ${(c.total_amout * c.discount) / 100}</div>
+                                        <div>Billing Amount: ${c.bill_amout}</div>
+                                    </div>
+                                </div>
+                                <div className='d-flex orderDetail-Data'>
+                                <NavLink className='dataOrder' to={`/orderDetails/${c.id}`}>
+                                    <button className='myOrderbtn'>View Order Details</button>
+                                </NavLink>
+                                <div className='dataOrder'></div>
+                                <div className='dataOrder order-status'><strong>Status:</strong> {c.status}</div>
+                                </div>
                             </div>
                         ))}
                     </div>

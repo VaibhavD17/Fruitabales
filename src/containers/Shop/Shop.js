@@ -14,7 +14,7 @@ function Shop(props) {
     const [search, setSearch] = useState("")
     const [sort, setSort] = useState("")
     const [selectCategory, setSelectCategory] = useState("")
-    const [value1, setValue1] = React.useState([0, 1000]);
+    const [value1, setValue1] = React.useState([0, 30000]);
 
     const dispatch = useDispatch();
 
@@ -26,9 +26,6 @@ function Shop(props) {
 
     const hendleCart = (data) => {
         dispatch(addtoCart(data))
-
-        console.log(data);
-
     }
 
 

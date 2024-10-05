@@ -105,10 +105,11 @@ function Checkout(props) {
                 cart: cart.cart,
                 biiling_details: { ...values, payment_method: "Cash On Delivery" },
                 total_amout: subtotal,
-                discount: parseInt(location.state.discount, "%"),
+                discount: parseInt(location.state.discount),
                 bill_amout: total_amout,
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
+                status:"Pending"
             }))
 
             navigate("/orderSuccess")

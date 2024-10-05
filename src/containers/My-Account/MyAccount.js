@@ -15,32 +15,37 @@ function MyAccount(props) {
                     <li className="breadcrumb-item active text-white">My Account</li>
                 </ol>
             </div>
-            <section className="container-fluid account-wrapper py-5">
-                <div className="inner">
-                    <div className="account-banner">
-                        <div className="inner-banner">
-                            <div className="container">
-                                {/* Navbar Start */}
-                                <div className="navbar d-flex justify-content-center">
-                                    <NavLink to={'/order'}>
-                                        <div className="account-link">
-                                            My Order
+
+            <div className="container-fluid py-5">
+                <div className='container'>
+                    <div className='d-flex row myAccountOrder'>
+                        <div className="col-md-4 mb-3">
+                            <div className="card">
+                                <NavLink to={'/order'}>
+                                    <div className="card-body">
+                                        <div className="text-center">
+                                            <a><img src="https://res.cloudinary.com/templategalaxy/image/upload/v1631257421/codepen-my-account/images/orders_n2aopq.png" /></a>
                                         </div>
-                                    </NavLink>
-                                    <NavLink to={'/account-details'}>
-                                        <div className="account-link">
-                                            Account Details
-                                        </div>
-                                    </NavLink>
-                                </div>
-                                {/* Navbar End */}
+                                        <h2>My Orders</h2>
+                                    </div>
+                                </NavLink>
+                            </div>
+                        </div>
+                        <div className="col-md-4 mb-3">
+                            <div className="card">
+                                <NavLink to={'/account-details'}>
+                                    <div className="card-body">
+                                        <div className="text-center">
+                                            <a><img src="https://res.cloudinary.com/templategalaxy/image/upload/v1631257421/codepen-my-account/images/login_aq9v9z.png" /></a> </div>
+                                        <h2>Account Details</h2>
+                                    </div>
+                                </NavLink>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-
-        </div >
+            </div >
+        </div>
 
     );
 }

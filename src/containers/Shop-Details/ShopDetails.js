@@ -10,8 +10,7 @@ import { IconButton, Rating } from '@mui/material';
 import { addReview, deleteReview, editReview, getReview } from '../../redux/Slice/review.slice';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { nnNO } from '@mui/material/locale';
-import { green, red } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
 import { ThemeContext } from '../../context/ThemeContext';
 
 

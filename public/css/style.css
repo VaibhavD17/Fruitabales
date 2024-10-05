@@ -657,20 +657,21 @@
 }
 
 .Ordercard {
-        padding: 60px;
-        border-radius: 4px;
-        box-shadow: 0 2px 3px #C8D0D8;
-        display: inline-block;
-        margin: 0 auto;
+    padding: 60px;
+    border-radius: 4px;
+    box-shadow: 0 2px 3px #C8D0D8;
+    display: inline-block;
+    margin: 0 auto;
 }
 
 .dark .Ordercard {
     background: #27283C;
-       
+
 }
+
 .light .Ordercard {
     background: #F4F6F8;
-       
+
 }
 
 .tg {
@@ -693,62 +694,56 @@
     gap: 20px;
 }
 
-.account-link {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-    text-transform: uppercase;
-    text-align: center;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
+.myAccountOrder {
+    display: flex;
+    justify-content: space-around;
+
 }
 
-.account-link:hover {
-    background-color: #0056b3;
+.myAccountOrder .card img {
+    max-width: 80px;
+}
+.myAccountOrder .card {
+   text-align: center;
+}
+.myAccountOrder .card h2{
+   font-size: 25px;
+   margin-top: 14px;
 }
 
-
-/* .accountDetails {
-    height: 100px;
-    width: 300px;
-    text-align: center;
-    border: 2px solid #81C408;
-    margin: 20px;
-    justify-content: center;
-    align-items: center;
-    column-gap: 50px;
-    font-size: 30px;
-    font-weight: bold;
+.dark .myAccountOrder .card {
+    background-color: #27283C;
+}
+.dark .myAccountOrder .card {
+    background-color: #C8D0D8;
 }
 
-
-.dark .accountDetails {
-    color: white;
-    
+.myAccountOrder .card:hover{
+    background: #81C408;
+}
+.myAccountOrder .card:hover h2{
+    color: white ;
 }
 
-.accountDetails:hover {
-    background-color: #FFB524;
-} */
-
- /* Styles for the container */
 .orderData {
     display: flex;
     flex-direction: column;
-    margin: 20px;
 }
 
-/* Styles for each order detail section */
-.orderSection {
+ .orderSection {
     border: 1px solid #ccc;
     padding: 15px;
     margin-bottom: 20px;
-    background-color: #f9f9f9;
     border-radius: 8px;
 }
 
-/* Flexbox to arrange product details */
+.dark .orderSection {
+    background-color: #27283C;
+}
+.light .orderSection {
+    background-color: #f9f9f9;
+}
+
 .orderDetail-Data {
     display: flex;
     justify-content: space-between;
@@ -756,26 +751,27 @@
     border-bottom: 1px solid #eee;
 }
 
-/* Individual detail styling */
+.orderDetail-total {
+    display: flex;
+    justify-content: space-between;
+}
+
 .dataOrder {
     flex: 1;
     padding: 0 10px;
 }
 
-/* Product name */
 .productname {
     font-weight: bold;
 }
 
-/* Billing amount styling */
 .bill-amount-order {
     margin-top: 15px;
     font-weight: bold;
     color: #333;
 }
 
-/* View Order button styling */
-button {
+.myOrderbtn {
     background-color: #007bff;
     color: white;
     padding: 10px 20px;
@@ -785,7 +781,18 @@ button {
     margin-top: 10px;
 }
 
-button:hover {
+.myOrderbtn:hover {
     background-color: #0056b3;
 }
 
+.back-button {
+    text-align: center;
+}
+
+.order-status {
+    border: 1px solid black;
+    margin-top: 20px;
+    font-size: 20px;
+    text-align: center;
+    padding: 5px 0;
+}

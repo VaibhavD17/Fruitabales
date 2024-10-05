@@ -17,6 +17,7 @@ import { ThemeContext } from '../context/ThemeContext';
 import OrderSuccess from '../containers/OrderSuccess';
 import MyAccount from '../containers/My-Account/MyAccount';
 import Order from '../containers/Order/Order';
+import OrderDetails from '../containers/Order-Details/OrderDetails';
 
 function UserRoutes(props) {
     const theme = useContext(ThemeContext)
@@ -38,6 +39,7 @@ function UserRoutes(props) {
                 <Route path='orderSuccess' element={<OrderSuccess />}></Route>
                 <Route path='myaccount' element={<MyAccount />}></Route>
                 <Route path='order' element={<Order />}></Route>
+                <Route path='orderDetails/:id' element={<OrderDetails />}></Route>
 
             </Routes>
             <Footers />
