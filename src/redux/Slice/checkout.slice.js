@@ -54,6 +54,22 @@ export const addBilling = createAsyncThunk(
     }
 )
 
+export const updateBilling = createAsyncThunk (
+    'checkout/updateBilling',
+    async (val) => {        
+        try {
+          const response = await axios.put(BASC_URL + "checkout/"+`${val.id}`, val);
+
+          console.log(response);
+          
+          return response.data;
+        } catch (error) {
+          console.log(error);
+          
+        }
+      }
+)
+
 const CheckoutSlice = createSlice({
     name: 'checkout',
     initialState,
@@ -64,6 +80,16 @@ const CheckoutSlice = createSlice({
         builder.addCase(addBilling.fulfilled, (state, action) => {
             state.checkOut = state.checkOut.concat(action.payload);
         })
+        builder.addCase(updateBilling.fulfilled, (state, action) => {
+            
+            state.checkOut = state.checkOut.map((v) => {
+                if (action.payload.id === v.id){
+                    return action.payload
+                } else {
+                    return v;
+                }
+            })
+          })
     }
 })
 

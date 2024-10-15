@@ -19,11 +19,6 @@ function OrderDetails(props) {
         );
     })
 
-
-
-
-
-
     const getData = () => {
         dispatch(getBilling())
         dispatch(getProduct())

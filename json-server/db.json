@@ -252,7 +252,55 @@
       "bill_amout": 88800,
       "createdAt": "2024-10-04T05:43:13.332Z",
       "updatedAt": "2024-10-04T05:43:13.332Z",
-      "status": "Pending"
+      "status": "transist"
+    },
+    {
+      "id": "d85a",
+      "user_id": "vaibhav",
+      "cart": [
+        {
+          "pid": "d46e",
+          "amount": "100",
+          "qty": 1
+        },
+        {
+          "pid": "ed08",
+          "amount": "800",
+          "qty": 2
+        },
+        {
+          "pid": "3ebe",
+          "amount": "50",
+          "qty": 3
+        },
+        {
+          "pid": "49a4",
+          "amount": "20",
+          "qty": 4
+        },
+        {
+          "pid": "585c",
+          "amount": "99",
+          "qty": 5
+        }
+      ],
+      "biiling_details": {
+        "fname": "Rahul",
+        "Lname": "Gohil",
+        "address": "ufhu uyef 988qwye bhn sstd8asb iassyduuzc yyyagf",
+        "city": "Surat",
+        "zipCode": "395006",
+        "country": "India",
+        "mobile": "1234567890",
+        "email": "sports@1234",
+        "payment_method": "Cash On Delivery"
+      },
+      "total_amout": 2425,
+      "discount": 10,
+      "bill_amout": 2182.5,
+      "createdAt": "2024-10-14T07:06:48.598Z",
+      "updatedAt": "2024-10-14T07:06:48.598Z",
+      "status": "accepte"
     }
   ]
 }

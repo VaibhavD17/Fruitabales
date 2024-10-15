@@ -11,23 +11,14 @@ function ReviewData(props) {
 
     const reviews = useSelector(state => state.review)
 
-    
-
     const getData =  () => {
 
         dispatch(getReview())
-        
-
     }
 
     const handleChange = async (data) => {
         dispatch(updateReview(data))
-
-       
     };
-
-
-
     useEffect(() => {
         getData();
     }, [])
