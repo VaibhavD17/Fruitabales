@@ -300,7 +300,23 @@
       "bill_amout": 2182.5,
       "createdAt": "2024-10-14T07:06:48.598Z",
       "updatedAt": "2024-10-14T07:06:48.598Z",
-      "status": "accepte"
+      "status": "pending"
+    }
+  ],
+  "auth": [
+    {
+      "id": "b202",
+      "name": "vaibhav",
+      "email": "vaibhav9723142179@gmail.com",
+      "password": "Vaibhav@123",
+      "confPassword": "Vaibhav@123"
+    },
+    {
+      "id": "94ed",
+      "name": "Rahul Gohil",
+      "email": "sports@1234",
+      "password": "rahul@111R",
+      "confPassword": "rahul@111R"
     }
   ]
 }

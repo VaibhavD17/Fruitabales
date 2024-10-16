@@ -1,15 +1,38 @@
 
 import { Field, useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { object, string, number } from 'yup';
+import { addRegistration, getRegistration, loginUser } from '../../redux/Slice/Auth.slice';
+import { useNavigate } from 'react-router-dom';
 
 function Login(props) {
 
     const [type, setType] = useState('login');
+    const dispatch = useDispatch();
+    const navigate  = useNavigate();
+    const auth = useSelector(state => state.auth.auth)
 
     const getData = () => {
+        dispatch(getRegistration())
+    }
 
+    
+
+    const hendleLogin = (data) => {
+        dispatch(loginUser(data))
+
+        auth.map((v) => {
+            if (v.email === data.email && v.password === data.password) {
+                navigate('/#')
+            } else {
+
+            }
+        })
+        
+        
+       
     }
 
 
@@ -24,22 +47,22 @@ function Login(props) {
         initialValues = {
             email: '',
             password: '',
-            confPassword: '',
+            // confPassword: '',
         }
         loginSchema = object({
             email: string().email("Please Enter Email").required(),
             password: string()
                 .required("Please Enter Password")
                 .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, "Password must be minimum 8 latters - alphabet(upar and Lower Case), number and special Symbol."),
-            confPassword: string()
-                .required("Please Enter Conform Password.")
-                .test('confPassword', "Conform Password Not match", function (value) {
-                    if (value === this.parent.password) {
-                        return true
-                    } else {
-                        return false
-                    }
-                })
+            // confPassword: string()
+            //     .required("Please Enter Conform Password.")
+            //     .test('confPassword', "Conform Password Not match", function (value) {
+            //         if (value === this.parent.password) {
+            //             return true
+            //         } else {
+            //             return false
+            //         }
+            //     })
         });
     } else if (type === 'signup') {
         initialValues = {
@@ -82,23 +105,27 @@ function Login(props) {
 
         onSubmit: (values, { }) => {
 
-            console.log(values);
+            if (type === 'signup') {
+                dispatch(addRegistration(values))
+            } else if (type === 'login') {
+                hendleLogin(values)
+            } 
 
-
+            if (!errors) {
+                resetForm()
+            } 
 
         },
     });
 
     const { handleBlur, handleChange, handleSubmit, values, errors, touched, setValues, resetForm } = formik
 
-    console.log(type, errors);
 
 
     return (
 
         <div className='container'>
 
-            {/* Single Page Header start */}
             <div className="container-fluid page-header py-5">
                 <h1 className="text-center text-white display-6">Login</h1>
                 <ol className="breadcrumb justify-content-center mb-0">
@@ -107,7 +134,6 @@ function Login(props) {
                     <li className="breadcrumb-item active text-white">Login</li>
                 </ol>
             </div>
-            {/* Single Page Header End */}
 
             <Form className='py-5' onSubmit={handleSubmit}>
                 {
@@ -148,21 +174,25 @@ function Login(props) {
                     {errors.email && touched.email ? <span className='validationError'>{errors.email}</span> : null}
                 </FormGroup>
                 {
-                    type === 'forgotpassword' ? null : <FormGroup>
-                        <Label for="examplePassword">
-                            Enter Your Password
-                        </Label>
-                        <Input
-                            name="password"
-                            placeholder="Password"
-                            type="password"
-                            value={values.password}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
-                        {errors.password && touched.password ? <span className='validationError'>{errors.password}</span> : null}
-                        <br />
-                        <Label for="examplePassword">
+                    type === 'forgotpassword' ? null :
+                        <FormGroup>
+                            <Label >
+                                Enter Your Password
+                            </Label>
+                            <Input
+                                name="password"
+                                placeholder="Password"
+                                type="password"
+                                value={values.password}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                            />
+                            {errors.password && touched.password ? <span className='validationError'>{errors.password}</span> : null}
+                        </FormGroup>
+                }
+                {
+                    type === 'signup' ? <FormGroup>
+                        <Label>
                             confirm Your Password
                         </Label>
                         <Input
@@ -175,10 +205,10 @@ function Login(props) {
                         />
                         {errors.confPassword && touched.confPassword ? <span className='validationError'>{errors.confPassword}</span> : null}
                     </FormGroup>
-
-
+                     :
+                     null
                 }
-
+                            
                 {
                     type === 'login' ? <a
                         id="UncontrolledTooltipExample"
@@ -232,7 +262,7 @@ function Login(props) {
                 }
 
                 <Button type='submit' className='loginsubmit'>
-                    Submit
+                    {type === 'login' ? 'Login' : type === 'signup' ? 'Sign up' : 'Submit'}
                 </Button>
 
                 <button type="button" className="login-with-google-btn " >

@@ -26,7 +26,7 @@ function OrderList(props) {
     const orderDate = new Date(orderData.createdAt)
     const cartData = orderData.cart
     const [disabled, setDisabled] = useState(false)
-    const [status, setStatus] = React.useState('pending');
+    const [status, setStatus] = React.useState('');
 
     const handleChange = (e) => {
         setStatus(e);

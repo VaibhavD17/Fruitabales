@@ -16,15 +16,15 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import CategoryIcon from '@mui/icons-material/Category';
-import FilterNoneIcon from '@mui/icons-material/FilterNone';
-import Inventory2Icon from '@mui/icons-material/Inventory2';
 import { NavLink } from 'react-router-dom';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import AppleIcon from '@mui/icons-material/Apple';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import PaymentsIcon from '@mui/icons-material/Payments';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 
 const drawerWidth = 240;
 
@@ -107,11 +107,11 @@ export default function Layout({ children }) {
 
     const listItems = [
         { label: 'Category', icon: <CategoryIcon />, to: '/admin/category' },
-        { label: 'SubCategory', icon: <FilterNoneIcon />, to: '/admin/subcategory' },
-        { label: 'Product', icon: <Inventory2Icon />, to: '/admin/product' },
-        { label: 'coupon', icon: <LocalOfferIcon />, to: '/admin/coupon' },
+        { label: 'SubCategory', icon: <FormatListBulletedIcon />, to: '/admin/subcategory' },
+        { label: 'Product', icon: <AppleIcon />, to: '/admin/product' },
+        { label: 'coupon', icon: <PaymentsIcon />, to: '/admin/coupon' },
         { label: 'reviewdata', icon: <ReviewsIcon />, to: '/admin/reviewdata' },
-        { label: 'orderList', icon: < ViewModuleIcon/>, to: '/admin/orderList' }
+        { label: 'orderList', icon: < ShoppingBagIcon/>, to: '/admin/orderList' }
 
 
     ]
