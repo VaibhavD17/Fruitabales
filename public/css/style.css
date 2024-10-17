@@ -242,6 +242,25 @@
     }
 }
 
+/* styles.css */
+
+.logout-button {
+    background-color: #81C408;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #FFB524;
+}
+
+
 /*** Hero Header end ***/
 
 
@@ -703,26 +722,30 @@
 .myAccountOrder .card img {
     max-width: 80px;
 }
+
 .myAccountOrder .card {
-   text-align: center;
+    text-align: center;
 }
-.myAccountOrder .card h2{
-   font-size: 25px;
-   margin-top: 14px;
+
+.myAccountOrder .card h2 {
+    font-size: 25px;
+    margin-top: 14px;
 }
 
 .dark .myAccountOrder .card {
     background-color: #27283C;
 }
+
 .dark .myAccountOrder .card {
     background-color: #C8D0D8;
 }
 
-.myAccountOrder .card:hover{
+.myAccountOrder .card:hover {
     background: #81C408;
 }
-.myAccountOrder .card:hover h2{
-    color: white ;
+
+.myAccountOrder .card:hover h2 {
+    color: white;
 }
 
 .orderData {
@@ -730,7 +753,7 @@
     flex-direction: column;
 }
 
- .orderSection {
+.orderSection {
     border: 1px solid #ccc;
     padding: 15px;
     margin-bottom: 20px;
@@ -740,6 +763,7 @@
 .dark .orderSection {
     background-color: #27283C;
 }
+
 .light .orderSection {
     background-color: #f9f9f9;
 }

@@ -1,19 +1,25 @@
 import React, { useContext } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { ThemeContext } from '../../context/ThemeContext';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { IconButton } from '@mui/material';
+import { logoutUser } from '../../redux/Slice/Auth.slice';
 
 function Headers(props) {
 
     const cart = useSelector(state => state.cart);
+    const auth = useSelector(state => state.auth.auth);
+    const dispatch = useDispatch();
 
     const fData = cart.cart.reduce((acc, v) => acc + v.qty, 0);
 
     const theme = useContext(ThemeContext)
 
+    const hendleLogout = () => {
+       dispatch(logoutUser())  
+    }
 
     const hendleTheme = () => {
         theme.toogaleTheme(theme.theme)
@@ -65,30 +71,38 @@ function Headers(props) {
                                 <NavLink to={'/myaccount'} className="nav-item nav-link">My Account</NavLink>
                             </div>
                             <div className="d-flex m-3 me-0">
-                                
-                                    <div style={{
-                                        marginRight:10
-                                    }}>{
+
+                                <div style={{
+                                    marginRight: 10
+                                }}>{
                                         theme.theme === 'light' ? <IconButton aria-label="edit" onClick={() => hendleTheme()}>
                                             <DarkModeIcon sx={{ color: '#81C408' }} />
                                         </IconButton>
-                                        :
-                                        <IconButton aria-label="edit" onClick={() => hendleTheme()}>
-                                            <LightModeIcon sx={{ color: '#81C408' }} />
-                                        </IconButton>
-                                        }
-                                    </div>
-                                
-                                
+                                            :
+                                            <IconButton aria-label="edit" onClick={() => hendleTheme()}>
+                                                <LightModeIcon sx={{ color: '#81C408' }} />
+                                            </IconButton>
+                                    }
+                                </div>
+
+
                                 <NavLink to={'/cart'} className="position-relative me-4 my-auto">
                                     <i className="fa fa-shopping-bag fa-2x" />
                                     <span className="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style={{ top: '-5px', left: 15, height: 20, minWidth: 20 }}>
                                         {fData}
                                     </span>
                                 </NavLink>
-                                <NavLink to={'/login'} className="my-auto">
-                                    <i className="fas fa-user fa-2x" />
-                                </NavLink>
+                                {
+                                    auth ?
+                                        <button onClick={hendleLogout} className="logout-button">
+                                            Logout
+                                        </button>
+                                        :
+                                        <NavLink to={'/login'} className="my-auto">
+                                            <i className="fas fa-user fa-2x" />
+                                        </NavLink>
+                                }
+
                             </div>
                         </div>
                     </nav>

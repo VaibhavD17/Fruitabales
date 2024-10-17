@@ -4,42 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { object, string, number } from 'yup';
-import { addRegistration, getRegistration, loginUser } from '../../redux/Slice/Auth.slice';
+import { addRegistration, loginUser } from '../../redux/Slice/Auth.slice';
 import { useNavigate } from 'react-router-dom';
 
 function Login(props) {
 
     const [type, setType] = useState('login');
     const dispatch = useDispatch();
-    const navigate  = useNavigate();
-    const auth = useSelector(state => state.auth.auth)
-
-    const getData = () => {
-        dispatch(getRegistration())
-    }
-
-    
-
-    const hendleLogin = (data) => {
-        dispatch(loginUser(data))
-
-        auth.map((v) => {
-            if (v.email === data.email && v.password === data.password) {
-                navigate('/#')
-            } else {
-
-            }
-        })
-        
-        
-       
-    }
-
-
-
-    useEffect(() => {
-        getData();
-    }, [])
+    const navigate = useNavigate();
 
     let loginSchema = {}, initialValues = {};
 
@@ -47,22 +19,13 @@ function Login(props) {
         initialValues = {
             email: '',
             password: '',
-            // confPassword: '',
         }
         loginSchema = object({
             email: string().email("Please Enter Email").required(),
             password: string()
                 .required("Please Enter Password")
                 .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, "Password must be minimum 8 latters - alphabet(upar and Lower Case), number and special Symbol."),
-            // confPassword: string()
-            //     .required("Please Enter Conform Password.")
-            //     .test('confPassword', "Conform Password Not match", function (value) {
-            //         if (value === this.parent.password) {
-            //             return true
-            //         } else {
-            //             return false
-            //         }
-            //     })
+           
         });
     } else if (type === 'signup') {
         initialValues = {
@@ -108,13 +71,10 @@ function Login(props) {
             if (type === 'signup') {
                 dispatch(addRegistration(values))
             } else if (type === 'login') {
-                hendleLogin(values)
-            } 
+                dispatch(loginUser(values))
+            }
 
-            if (!errors) {
-                resetForm()
-            } 
-
+            resetForm()
         },
     });
 
@@ -205,10 +165,10 @@ function Login(props) {
                         />
                         {errors.confPassword && touched.confPassword ? <span className='validationError'>{errors.confPassword}</span> : null}
                     </FormGroup>
-                     :
-                     null
+                        :
+                        null
                 }
-                            
+
                 {
                     type === 'login' ? <a
                         id="UncontrolledTooltipExample"

@@ -2,30 +2,21 @@ import { createAsyncThunk, createSlice, isRejectedWithValue } from "@reduxjs/too
 import axios from "axios";
 import { BASC_URL } from "../../utilse/bascURL";
 
+
 const initialState = {
-    isLoading:false,
-    auth:[],
-    error:null
+    isLoading: false,
+    auth: null,
+    error: null
 }
 
-export const getRegistration = createAsyncThunk (
-    'auth/getRegistration',
-    async() =>{
-        try {
-            const response = await axios.get(BASC_URL + 'auth')
-            return response.data;
 
-        } catch (error) {
-            console.log(error);
-        }
-    }
-)
-
-export const addRegistration = createAsyncThunk (
+export const addRegistration = createAsyncThunk(
     'auth/addRegistration',
-    async (data) =>{
+    async (data) => {
         try {
             const response = await axios.post(BASC_URL + 'auth', data)
+
+            alert('Registration Successful')
             return response.data;
 
         } catch (error) {
@@ -34,35 +25,58 @@ export const addRegistration = createAsyncThunk (
     }
 )
 
-export const loginUser = createAsyncThunk (
+
+
+export const loginUser = createAsyncThunk(
     'auth/loginUser',
     async (data) => {
-        const response = await axios.get(BASC_URL + 'auth')
-        
-        const fData = response.data;
+        try {
+            const response = await axios.get(BASC_URL + 'auth')
 
-        const user = fData.find((v) => v.email === data.email && v.password === data.password);
+            const fData = response.data;
 
-        if (user) {
-            
-            return user;
-            
-        } else {
-            return alert('Email or password does not match');
+            const user = fData.find((v) => v.email === data.email && v.password === data.password);
+
+            if (user) {
+
+                alert('Login Successful')
+                return user;
+                
+
+            } else {
+                return alert('Email or password does not match');
+            }
+        } catch (error) {
+            console.log(error);
+
         }
-        
+
+
+
     }
+)
+export const logoutUser = createAsyncThunk(
+    'auth/logoutUser',
+
+    async () => {
+        return null
+    }
+
 )
 
 const AuthSlice = createSlice({
-    name:'auth',
+
+    name: 'auth',
     initialState,
-    extraReducers:(builder) =>{
-        builder.addCase(getRegistration.fulfilled, (state, action) =>{
+    extraReducers: (builder) => {
+        builder.addCase(addRegistration.fulfilled, (state, action) => {
+            state.auth = state?.auth?.concat(action.payload)
+        })
+        builder.addCase(loginUser.fulfilled, (state, action) => {
             state.auth = action.payload
         })
-        builder.addCase(addRegistration.fulfilled, (state, action) =>{
-            state.auth = state.auth.concat(action.payload)
+        builder.addCase(logoutUser.fulfilled, (state, action) => {
+            state.auth = action.payload
         })
     }
 })
