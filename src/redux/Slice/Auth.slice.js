@@ -31,14 +31,22 @@ export const loginUser = createAsyncThunk(
     'auth/loginUser',
     async (data) => {
         try {
+
+            console.log(data.values);
+            
+            
             const response = await axios.get(BASC_URL + 'auth')
 
             const fData = response.data;
 
-            const user = fData.find((v) => v.email === data.email && v.password === data.password);
+            const user = fData.find((v) => v.email === data.values.email && v.password === data.values.password);
+
+            console.log(user);
+            
 
             if (user) {
 
+                data.navigate('/#')
                 alert('Login Successful')
                 return user;
                 
