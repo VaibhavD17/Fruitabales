@@ -308,8 +308,8 @@
       "id": "c24e",
       "name": "vaibhav",
       "email": "vaibhav9723142179@gmail.com",
-      "password": "Vaibhav@123",
-      "confPassword": "Vaibhav@123"
+      "confPassword": "Vidisha@111",
+      "password": "Vidisha@111"
     },
     {
       "id": "89ef",
@@ -350,15 +350,15 @@
       "id": "84c6",
       "name": "Rahul Gohil",
       "email": "rahulR@gmail.com",
-      "password": "Rahul@111",
-      "confPassword": "Rahul@111"
+      "password": "Rahulgohil@1",
+      "confPassword": "Rahulgohil@1"
     },
     {
-      "id": "3743",
-      "name": "vaibhav",
-      "email": "vaibhav9723142179@gmail.com",
-      "password": "Vaibhav@321",
-      "confPassword": "Vaibhav@321"
+      "id": "fcfd",
+      "name": "fation",
+      "email": "bababababokok@123",
+      "password": "okokok@123OK",
+      "confPassword": "okokok@123OK"
     }
   ]
 }

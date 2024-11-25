@@ -785,6 +785,10 @@
     padding: 0 10px;
 }
 
+.dark .dataOrder {
+    color: white;
+}
+
 .productname {
     font-weight: bold;
 }
@@ -819,4 +823,13 @@
     font-size: 20px;
     text-align: center;
     padding: 5px 0;
+}
+
+.dark .order-card-body {
+    background-color: #27283C;
+    color: white;
+}
+
+.dark .order-card-body .card-title {
+    color: white;
 }

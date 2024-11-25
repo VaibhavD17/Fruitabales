@@ -32,24 +32,18 @@ export const loginUser = createAsyncThunk(
     async (data) => {
         try {
 
-            console.log(data.values);
-            
-            
             const response = await axios.get(BASC_URL + 'auth')
 
             const fData = response.data;
 
             const user = fData.find((v) => v.email === data.values.email && v.password === data.values.password);
 
-            console.log(user);
-            
-
             if (user) {
 
                 data.navigate('/#')
                 alert('Login Successful')
                 return user;
-                
+
 
             } else {
                 return alert('Email or password does not match');
@@ -72,6 +66,46 @@ export const logoutUser = createAsyncThunk(
 
 )
 
+export const updatePassword = createAsyncThunk(
+    'auth/updatePassword',
+
+    async (data) => {
+        try {
+            console.log(data);
+            
+            const response = await axios.get(BASC_URL + 'auth')
+            const fData = response.data;
+            const userIndex = fData.findIndex((v) => v.email === data.forgotEmail);
+
+            if (userIndex !== -1) {
+
+                const updatedUser = {
+                    ...fData[userIndex],
+                    password: data.password,
+                    confPassword: data.confPassword
+                }
+
+                await axios.put(`${BASC_URL}auth/${updatedUser.id}`, updatedUser);
+                alert('Password updated successfully');
+
+                return updatedUser;
+            } else {
+                alert('User not found');
+                return null;
+            }
+
+
+        } catch (error) {
+            console.log(error);
+
+        }
+
+
+
+    }
+
+)
+
 const AuthSlice = createSlice({
 
     name: 'auth',
@@ -85,6 +119,15 @@ const AuthSlice = createSlice({
         })
         builder.addCase(logoutUser.fulfilled, (state, action) => {
             state.auth = action.payload
+        })
+        builder.addCase(updatePassword.fulfilled, (state, action) => {            
+            state.auth = state?.auth?.map((v) => {
+                if (v.id === action.payload.id) {
+                    return action.payload
+                } else {
+                    return v;
+                }
+            })
         })
     }
 })

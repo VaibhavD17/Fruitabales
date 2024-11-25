@@ -91,10 +91,10 @@ function OrderDetails(props) {
 
                             return (
                                 <div className="col-md-12 mb-4" key={v.orderId}>
-                                    <div className="card shadow-sm border-0">
-                                        <div className="card-body">
+                                    <div className="card shadow-lg border-0">
+                                        <div className="order-card-body card-body">
                                             {/* Order Summary */}
-                                            <h5 className="card-title text-dark">Order Summary</h5>
+                                            <h5 className="card-title">Order Summary</h5>
                                             <hr />
 
                                             {/* Shipping Information */}

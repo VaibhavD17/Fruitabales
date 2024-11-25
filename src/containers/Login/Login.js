@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { object, string, number } from 'yup';
-import { addRegistration, loginUser } from '../../redux/Slice/Auth.slice';
+import { addRegistration, loginUser, updatePassword } from '../../redux/Slice/Auth.slice';
 import { useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 
@@ -16,13 +16,12 @@ function Login(props) {
     const form = useRef();
     const [sendotp, setsendOtp] = useState('')
     const [userOtp, setUserOtp] = useState('');
-
-    console.log(sendotp, userOtp);
-    
+    const [forgotEmail, setforgotEmail] = useState('')
 
     const sendEmail = (values) => {
         const generatedOtp = Math.floor(Math.random() * 1000000);
         setsendOtp(generatedOtp)
+        setforgotEmail(values.email)
         setType('otp')
         emailjs
             .send('service_zppnhcs', 'template_12aebtt', {
@@ -33,23 +32,23 @@ function Login(props) {
             })
             .then(
                 () => {
-                    console.log('SUCCESS!');
+                    alert('OTP Sent successfully.');
                 },
                 (error) => {
-                    console.log('FAILED...', error.text);
+                    alert('FAILED...', error.text);
                 },
             );
     };
 
 
     const handleOTP = () => {
-        if (userOtp === sendotp.toString()) { 
-            console.log("OTP matched!");
+        if (userOtp === sendotp.toString()) {
+            alert("OTP matched!");
 
             setType('verified')
-           
+
         } else {
-            console.log("Incorrect OTP. Please try again.");
+            alert("Incorrect OTP. Please try again.");
         }
     };
 
@@ -98,6 +97,25 @@ function Login(props) {
         loginSchema = object({
             email: string().email("Please Enter Email").required(),
         });
+    } else if (type === 'verified') {
+        initialValues = {
+            password: '',
+            confPassword: '',
+        }
+        loginSchema = object({
+            password: string()
+                .required("Please Enter Password")
+                .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, "Password must be minimum 8 latters - alphabet(upar and Lower Case), number and special Symbol."),
+            confPassword: string()
+                .required("Please Enter Conform Password.")
+                .test('confPassword', "Conform Password Not match", function (value) {
+                    if (value === this.parent.password) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+        });
     }
 
     const formik = useFormik({
@@ -110,19 +128,20 @@ function Login(props) {
         onSubmit: (values, { }) => {
 
             if (type === 'signup') {
-
                 dispatch(addRegistration(values))
-                resetForm()
             } else if (type === 'login') {
                 dispatch(loginUser({ values, navigate }))
-                resetForm()
             } else if (type === 'forgotpassword') {
                 seDisabled(false)
                 sendEmail(values)
             } else if (type === 'otp') {
                 handleOTP();
+            } else if (type === 'verified') {
+                dispatch(updatePassword({ ...values, forgotEmail}))
+                setType('login')
             }
 
+            resetForm()
 
         },
     });
@@ -146,22 +165,23 @@ function Login(props) {
 
             {
                 type === 'otp' ?
-                    <FormGroup className='py-5'>
-                        <Label >
-                            Enter OTP
-                        </Label>
-                        <Input
-                            name="otp"
-                            placeholder="otp"
-                            type="text"
-                            value={userOtp}
-                            onChange={(e) => setUserOtp(e.target.value)}
-                        />
-
+                    <>
+                        <FormGroup className='py-5'>
+                            <Label >
+                                Enter OTP
+                            </Label>
+                            <Input
+                                name="otp"
+                                placeholder="otp"
+                                type="text"
+                                value={userOtp}
+                                onChange={(e) => setUserOtp(e.target.value)}
+                            />
+                        </FormGroup>
                         <Button type='button' className='loginsubmit' onClick={handleOTP}>
                             Submit
                         </Button>
-                    </FormGroup>
+                    </>
                     :
 
                     <form ref={form} className='py-5' onSubmit={handleSubmit}>
@@ -184,26 +204,28 @@ function Login(props) {
                                 :
                                 null
                         }
-
-                        <FormGroup>
-                            <Label for="exampleEmail">
-                                Enter Your Email
-                            </Label>
-                            <Input
-                                id="email"
-                                name="email"
-                                placeholder="Email"
-                                type="email"
-                                fullwidth
-                                variant="outlined"
-                                value={values.email}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            />
-                            {errors.email && touched.email ? <span className='validationError'>{errors.email}</span> : null}
-                        </FormGroup>
                         {
-                            type === 'forgotpassword' ?
+                            type === 'verified' ? null :
+                                <FormGroup>
+                                    <Label for="exampleEmail">
+                                        Enter Your Email
+                                    </Label>
+                                    <Input
+                                        id="email"
+                                        name="email"
+                                        placeholder="Email"
+                                        type="email"
+                                        fullwidth
+                                        variant="outlined"
+                                        value={values.email}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                    {errors.email && touched.email ? <span className='validationError'>{errors.email}</span> : null}
+                                </FormGroup>
+                        }
+                        {
+                            type === 'forgotpassword' || type === 'verified' ?
                                 null
                                 :
                                 <FormGroup>
@@ -239,6 +261,36 @@ function Login(props) {
                                 :
                                 null
                         }
+                        {
+                            type === 'verified' ? <FormGroup>
+                                <Label >
+                                    Enter New Password
+                                </Label>
+                                <Input
+                                    name="password"
+                                    placeholder="Password"
+                                    type="password"
+                                    value={values.password}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                                {errors.password && touched.password ? <span className='validationError'>{errors.password}</span> : null}
+
+                                <Label>
+                                    confirm New Password
+                                </Label>
+                                <Input
+                                    name="confPassword"
+                                    placeholder="Confirm Password"
+                                    type="password"
+                                    value={values.confPassword}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                                {errors.confPassword && touched.confPassword ? <span className='validationError'>{errors.confPassword}</span> : null}
+                            </FormGroup>
+                                : null
+                        }
 
                         {
                             type === 'login' ? <a
@@ -256,46 +308,51 @@ function Login(props) {
                         }
 
                         {
-                            type != 'signup' ? <p>
-                                Create New Account ? {' '}
+                            type === 'signup' ? <p>
+                                You have an Account ? {' '}
 
                                 <a
                                     id="UncontrolledTooltipExample"
                                     style={{
                                         color: '#81C408',
                                         textDecoration: 'none'
-
                                     }}
-                                    onClick={() => setType('signup')}
+                                    onClick={() => setType('login')}
                                 >
-                                    Sing UP
+                                    Login
                                 </a>
                                 .
                             </p>
                                 :
+                                null
+                        }
+                        {
+                            type === 'login' || type === 'forgotpassword' ?
                                 <p>
-                                    You have an Account ? {' '}
+                                    Create New Account ? {' '}
 
                                     <a
                                         id="UncontrolledTooltipExample"
                                         style={{
                                             color: '#81C408',
                                             textDecoration: 'none'
+
                                         }}
-                                        onClick={() => setType('login')}
+                                        onClick={() => setType('signup')}
                                     >
-                                        Login
+                                        Sing UP
                                     </a>
                                     .
                                 </p>
-
+                                :
+                                null
 
                         }
 
 
 
                         <Button type='submit' className='loginsubmit'>
-                            {type === 'login' ? 'Login' : type === 'signup' ? 'Sign up' :type === 'forgotpassword' ? 'Send OTP' : 'Create New Password'}
+                            {type === 'login' ? 'Login' : type === 'signup' ? 'Sign up' : type === 'forgotpassword' ? 'Send OTP' : 'Create New Password'}
                         </Button>
 
                         <button type="button" className="login-with-google-btn " >
