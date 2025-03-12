@@ -310,11 +310,6 @@ function Shop(props) {
                                                 </div>
                                             ))
                                         }
-
-
-
-
-
                                         <div className="col-12">
                                             <div className="pagination d-flex justify-content-center mt-5">
                                                 <a href="#" className="rounded">«</a>

@@ -12,7 +12,7 @@ function Login(props) {
     const [type, setType] = useState('login');
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [disabled, seDisabled] = useState(true)
+    const [disabled, setDisabled] = useState(true)
     const form = useRef();
     const [sendotp, setsendOtp] = useState('')
     const [userOtp, setUserOtp] = useState('');
@@ -26,7 +26,7 @@ function Login(props) {
         emailjs
             .send('service_zppnhcs', 'template_12aebtt', {
                 email: values.email,
-                otp_code: generatedOtp,
+                otp_code: generatedOtp
             }, {
                 publicKey: 'vq0PugDSMVxTMBX8R',
             })
@@ -132,12 +132,12 @@ function Login(props) {
             } else if (type === 'login') {
                 dispatch(loginUser({ values, navigate }))
             } else if (type === 'forgotpassword') {
-                seDisabled(false)
+                setDisabled(false)
                 sendEmail(values)
             } else if (type === 'otp') {
                 handleOTP();
             } else if (type === 'verified') {
-                dispatch(updatePassword({ ...values, forgotEmail}))
+                dispatch(updatePassword({ ...values, forgotEmail }))
                 setType('login')
             }
 

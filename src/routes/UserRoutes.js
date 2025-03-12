@@ -14,7 +14,7 @@ import Counter from '../containers/Counter/Counter';
 import PriceSlider from '../containers/Price-Slider/PriceSlider';
 import Login from '../containers/Login/Login';
 import { ThemeContext } from '../context/ThemeContext';
-import OrderSuccess from '../containers/OrderSuccess';
+import OrderSuccess from '../containers/Order Success/OrderSuccess';
 import MyAccount from '../containers/My-Account/MyAccount';
 import Order from '../containers/Order/Order';
 import OrderDetails from '../containers/Order-Details/OrderDetails';
@@ -40,7 +40,6 @@ function UserRoutes(props) {
                 <Route path='myaccount' element={<MyAccount />}></Route>
                 <Route path='order' element={<Order />}></Route>
                 <Route path='orderDetails/:id' element={<OrderDetails />}></Route>
-
             </Routes>
             <Footers />
         </div>

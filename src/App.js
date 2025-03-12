@@ -6,11 +6,10 @@ import PrivateRoutes from './routes/PrivateRoutes';
 import { Provider } from 'react-redux';
 import { store, storeData } from './redux/Store';
 import { ThemeContext, ThemeProvider } from './context/ThemeContext';
-import { useContext } from 'react';
 import { PersistGate } from 'redux-persist/integration/react'
 
 function App() {
-  const {store, persistor} = storeData()
+  const { store, persistor } = storeData()
   return (
     <ThemeProvider>
       <Provider store={store}>

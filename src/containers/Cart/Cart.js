@@ -27,19 +27,11 @@ function Cart(props) {
     const fData = cart.cart.map((v) => {
         const pData = product.products.find((v1) => v1.id === v.pid);
 
-        console.log(pData);
-        
         return { ...pData, qty: v.qty }
 
     })
 
-    const subtotal = fData.reduce((acc, v) => acc + (v.price * v.qty), 0);
-
-    const totalDiscount = discount ? (subtotal * discount) / 100 : 0;
-
-    const total = subtotal - totalDiscount;
-
-
+   
     const dispatch = useDispatch();
 
     const hendleincrement = (id) => {
@@ -93,9 +85,11 @@ function Cart(props) {
     const { handleBlur, handleChange, handleSubmit, values, errors, touched, setValues, resetForm, setFieldValue, isSubmitting } = formik
 
 
+    const subtotal = fData.reduce((acc, v) => acc + (v.price * v.qty), 0);
 
-    console.log(isSubmitting, discount);
+    const totalDiscount = isSubmitting && discount ? (subtotal * discount) / 100 : 0;
 
+    const total = subtotal - totalDiscount;
 
 
 

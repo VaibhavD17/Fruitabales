@@ -14,6 +14,9 @@ function Checkout(props) {
     const dispatch = useDispatch();
     const location = useLocation();
 
+    console.log(location.state);
+    
+
 
     const fData = cart.cart.map((v) => {
         const pData = product.products.find((v1) => v1.id === v.pid);
@@ -81,7 +84,7 @@ function Checkout(props) {
         email: string()
             .email("Please Enter Valid Email.")
             .required("Please Enter Email."),
-        cod: boolean().oneOf([true], 'Please select payment method')
+        payment_method: boolean().oneOf([true], 'Please select payment method')
     });
 
     const navigate = useNavigate();
@@ -109,7 +112,7 @@ function Checkout(props) {
                 bill_amout: total_amout,
                 createdAt: new Date(),
                 updatedAt: new Date(),
-                status:"Pending"
+                status: "Pending"
             }))
 
             navigate("/orderSuccess")

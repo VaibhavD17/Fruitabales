@@ -44,8 +44,6 @@ function ShopDetails(props) {
     const hendleCart = (data) => {
         dispatch(addtoCart(data))
 
-        console.log(data);
-        
     }
 
     const hendleRating = async (data) => {

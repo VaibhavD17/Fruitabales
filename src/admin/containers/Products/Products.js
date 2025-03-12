@@ -28,10 +28,6 @@ function Products(props) {
     const categorie = useSelector(state => state.categories)
     const subCategorie = useSelector(state => state.subcategories)
     const product = useSelector(state => state.products)
-
-    console.log(categorie);
-    console.log(subCategorie);
-
     
     useEffect(() => {
         getData();

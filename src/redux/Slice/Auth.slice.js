@@ -72,7 +72,7 @@ export const updatePassword = createAsyncThunk(
     async (data) => {
         try {
             console.log(data);
-            
+
             const response = await axios.get(BASC_URL + 'auth')
             const fData = response.data;
             const userIndex = fData.findIndex((v) => v.email === data.forgotEmail);
@@ -120,7 +120,7 @@ const AuthSlice = createSlice({
         builder.addCase(logoutUser.fulfilled, (state, action) => {
             state.auth = action.payload
         })
-        builder.addCase(updatePassword.fulfilled, (state, action) => {            
+        builder.addCase(updatePassword.fulfilled, (state, action) => {
             state.auth = state?.auth?.map((v) => {
                 if (v.id === action.payload.id) {
                     return action.payload

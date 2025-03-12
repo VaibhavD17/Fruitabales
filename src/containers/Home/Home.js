@@ -150,7 +150,7 @@ function Home(props) {
                             <div className="col-lg-8 text-end">
                                 <ul className="nav nav-pills d-inline-flex text-center mb-5">
                                     <li className="nav-item">
-                                        <a className={`d-flex py-2 m-2  rounded-pill ${theme.theme}`} data-bs-toggle="pill" href="#tab-1" onClick={(e) => setSelectCategory("all")}>
+                                        <a className={`d-flex py-2 m-2  rounded-pill ${theme.theme}`} data-bs-toggle="pill" href="#tab-1" onClick={() => setSelectCategory("all")}>
                                             <span style={{ width: 130 }}>All Products</span>
                                         </a>
                                     </li>

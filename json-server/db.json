@@ -181,7 +181,7 @@
       "review": "dvs;sdmfksddvjlk.m,",
       "rate": 1,
       "pid": "49a4",
-      "status": "panding",
+      "status": "Active",
       "uid": ""
     },
     {
@@ -252,7 +252,7 @@
       "bill_amout": 88800,
       "createdAt": "2024-10-04T05:43:13.332Z",
       "updatedAt": "2024-10-04T05:43:13.332Z",
-      "status": "transist"
+      "status": "reject"
     },
     {
       "id": "d85a",
@@ -301,6 +301,62 @@
       "createdAt": "2024-10-14T07:06:48.598Z",
       "updatedAt": "2024-10-14T07:06:48.598Z",
       "status": "pending"
+    },
+    {
+      "id": "10b9",
+      "user_id": "vaibhav",
+      "cart": [
+        {
+          "pid": "d46e",
+          "amount": "100",
+          "qty": 1
+        }
+      ],
+      "biiling_details": {
+        "fname": "vaibhav",
+        "Lname": "Gohil",
+        "address": "dfvcvx",
+        "city": "Surat",
+        "zipCode": "395006",
+        "country": "India",
+        "mobile": "7567058384",
+        "email": "vaibhav9723142179@gmil.com",
+        "payment_method": "Cash On Delivery"
+      },
+      "total_amout": 100,
+      "discount": 10,
+      "bill_amout": 90,
+      "createdAt": "2024-12-19T04:33:10.615Z",
+      "updatedAt": "2024-12-19T04:33:10.615Z",
+      "status": "pending"
+    },
+    {
+      "id": "cc65",
+      "user_id": "vaibhav",
+      "cart": [
+        {
+          "pid": "d46e",
+          "amount": "100",
+          "qty": 1
+        }
+      ],
+      "biiling_details": {
+        "fname": "vaibhav",
+        "Lname": "Gohil",
+        "address": "fxfgsdf",
+        "city": "Surat",
+        "zipCode": "395006",
+        "country": "India",
+        "mobile": "7567058384",
+        "email": "vaibhav9723142179@gmil.com",
+        "payment_method": "Cash On Delivery"
+      },
+      "total_amout": 100,
+      "discount": 10,
+      "bill_amout": 90,
+      "createdAt": "2024-12-19T04:34:02.500Z",
+      "updatedAt": "2024-12-19T04:34:02.500Z",
+      "status": "cancel"
     }
   ],
   "auth": [
