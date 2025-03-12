@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { BASC_URL } from "../../utilse/bascURL";
 
 const initialState = {
     isLoading: false,
@@ -10,7 +11,7 @@ export const getProduct = createAsyncThunk(
     'product/getProduct',
     async () => {
         try {
-            const productresponse = await fetch("http://localhost:8080/product");
+            const productresponse = await fetch(BASC_URL+ 'product');
             const Pdata = await productresponse.json();
 
             return Pdata;
@@ -25,7 +26,7 @@ export const addProduct = createAsyncThunk(
     'product/addProduct',
     async (data) => {
         try {
-            const response = await fetch("http://localhost:8080/product", {
+            const response = await fetch(BASC_URL + 'product', {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json',
@@ -46,7 +47,7 @@ export const deleteProduct = createAsyncThunk(
     'product/deleteProduct',
     async (id) => {
         try {
-            await fetch("http://localhost:8080/product/" + id, {
+            await fetch(BASC_URL + 'product/'+ id, {
                 method: "DELETE"
             })
 
@@ -63,7 +64,7 @@ export const updateProduct = createAsyncThunk(
     'product/updateProduct',
     async (data) => {
         try {
-            const response = await fetch("http://localhost:8080/product/" + data.id, {
+            const response = await fetch(BASC_URL + 'product/' + data.id, {
                 method: "PUT",
                 headers: {
                     'Content-type': 'application/json',

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { BASC_URL } from "../../utilse/bascURL";
 
 
 const initialState = {
@@ -11,7 +12,7 @@ export const getReview = createAsyncThunk(
     'review/getReview',
     async () => {
         try {
-            const response = await fetch("http://localhost:8080/review")
+            const response = await fetch(BASC_URL + 'review')
             const fData = await response.json();
 
             console.log("fdatttttttttttttttttttttt", fData);
@@ -29,7 +30,7 @@ export const addReview = createAsyncThunk(
     'review/addReview',
     async (data) => {
         try {
-            const response = await fetch("http://localhost:8080/review", {
+            const response = await fetch(BASC_URL + 'review', {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json',
@@ -54,7 +55,7 @@ export const updateReview = createAsyncThunk(
 
         if (data.status === 'panding') {
             try {
-                const response = await fetch("http://localhost:8080/review/" + data.id, {
+                const response = await fetch(BASC_URL + 'review/' + data.id, {
                     method: "PUT",
                     headers: {
                         'Content-type': 'application/json',
@@ -73,7 +74,7 @@ export const updateReview = createAsyncThunk(
             }
         } else if (data.status === 'Active') {
             try {
-                const response = await fetch("http://localhost:8080/review/" + data.id, {
+                const response = await fetch(BASC_URL + 'review/' + data.id, {
                     method: "PUT",
                     headers: {
                         'Content-type': 'application/json',

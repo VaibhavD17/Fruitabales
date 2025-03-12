@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { BASC_URL } from "../../utilse/bascURL";
 
 
 const initialState = {
@@ -11,7 +12,7 @@ export const getCoupon = createAsyncThunk(
     'coupon/getCoupon',
     async () => {
         try {
-            const response = await fetch("http://localhost:8080/coupon");
+            const response = await fetch(BASC_URL + 'coupon');
             const data = await response.json();
             
             return data;
@@ -27,7 +28,7 @@ export const addCoupon = createAsyncThunk(
     'coupon/addCoupon',
     async (data) => {
         try {
-            const response = await fetch("http://localhost:8080/coupon", {
+            const response = await fetch(BASC_URL + 'coupon', {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json',
@@ -49,7 +50,7 @@ export const deleteCoupon = createAsyncThunk (
     'coupon/deleteCoupon',
     async (id) => {
         try {
-            await fetch("http://localhost:8080/coupon/" + id, {
+            await fetch(BASC_URL + 'coupon/'+ id, {
                 method:'DELETE'
             }) 
             return id;
@@ -64,7 +65,7 @@ export const updateCoupon = createAsyncThunk(
     'coupon/updateCoupon',
     async (data) => {
         try {
-            const response = await fetch("http://localhost:8080/coupon/" + data.id, {
+            const response = await fetch(BASC_URL + 'coupon/'+ data.id, {
                 method: "PUT",
                 headers: {
                     'Content-type': 'application/json',

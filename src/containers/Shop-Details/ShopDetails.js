@@ -65,6 +65,7 @@ function ShopDetails(props) {
     const getData = () => {
         dispatch(getReview());
         hendledisable()
+        dispatch(getProduct())
     }
 
     useEffect(() => {
@@ -134,7 +135,7 @@ console.log(values);
                                     </div>
                                 </div>
                                 <div className="col-lg-6">
-                                    <h4 className={`${theme.theme}-header fw-bold mb-3`}>{fData.product}</h4>
+                                    <h4 className={`${theme.theme}-header fw-bold mb-3`}>{fData?.product}</h4>
                                     <p className="mb-3">Category: Vegetables</p>
                                     <h5 className={`${theme.theme}-header fw-bold mb-3`}>3,35 $</h5>
                                     <div className="d-flex mb-4">

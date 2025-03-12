@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { BASC_URL } from "../../utilse/bascURL";
 
 
 const initialState = {
@@ -11,7 +12,7 @@ export const getSubcategories = createAsyncThunk(
     'subcategorie/getSubcategories',
     async () => {
         try {
-            const subResponse = await fetch("http://localhost:8080/subcategory");
+            const subResponse = await fetch(BASC_URL + 'subcategory');
             const sData = await subResponse.json();
 
             return sData;
@@ -26,7 +27,7 @@ export const addSubcategories = createAsyncThunk(
     'subcategorie/addSubcategories',
     async (data) => {
         try {
-            const response = await fetch("http://localhost:8080/subcategory", {
+            const response = await fetch(BASC_URL + 'subcategory', {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json',
@@ -48,7 +49,7 @@ export const deleteSubcategory = createAsyncThunk(
     'subcategorie/deleteSubcategory',
     async (id) => {
         try {
-            await fetch("http://localhost:8080/subcategory/" + id, {
+            await fetch(BASC_URL + 'subcategory/' + id, {
                 method: "DELETE"
             })
             return id;
@@ -62,7 +63,7 @@ export const updateSubcategory = createAsyncThunk(
     'subcategorie/updateSubcategory',
     async (data) => {
         try {
-            const response = await fetch("http://localhost:8080/subcategory/" + data.id, {
+            const response = await fetch(BASC_URL + 'subcategory/' + data.id, {
                 method: "PUT",
                 headers: {
                     'Content-type': 'application/json',
