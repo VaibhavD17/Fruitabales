@@ -57,7 +57,7 @@ function Headers(props) {
                                 {/* <NavLink to={'/counter'} className="nav-item nav-link">Counter</NavLink> */}
                                 {/* <NavLink to={'/priceSlider'} className="nav-item nav-link">Price Slider</NavLink> */}
 
-                                <div className="nav-item dropdown">
+                                {/* <div className="nav-item dropdown">
                                     <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                     <div className="dropdown-menu m-0 bg-secondary rounded-0">
                                         <NavLink to={'/cart'} className="dropdown-item">Cart</NavLink>
@@ -66,7 +66,7 @@ function Headers(props) {
                                         <NavLink to={'/error'} className="dropdown-item">404 Page</NavLink>
                                         <NavLink to={'/login'} className="dropdown-item">Login</NavLink>
                                     </div>
-                                </div>
+                                </div> */}
                                 <NavLink to={'/contacts'} className="nav-item nav-link">Contact</NavLink>
                                 <NavLink to={'/myaccount'} className="nav-item nav-link">My Account</NavLink>
                             </div>
