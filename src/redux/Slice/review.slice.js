@@ -15,8 +15,6 @@ export const getReview = createAsyncThunk(
             const response = await fetch(BASC_URL + 'review')
             const fData = await response.json();
 
-            console.log("fdatttttttttttttttttttttt", fData);
-            
 
             return fData;
 
