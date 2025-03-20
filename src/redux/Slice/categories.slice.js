@@ -46,7 +46,7 @@ export const deleteCategories = createAsyncThunk(
     'categories/deleteCategories ',
     async (id) => {
         try {
-            await fetch(BASC_URL + 'category/' + id, {
+            await fetch(BASC_URL + 'category/' + `${id}`, {
                 method: "DELETE"
             });
 
@@ -62,7 +62,7 @@ export const updateCategories = createAsyncThunk(
     'categories/updateCategories ',
     async (data) => {
         try {
-            const response = await fetch(BASC_URL + 'category/' + data.id, {
+            const response = await fetch(BASC_URL + 'category/' + `${data.id}`, {
                 method: "PUT",
                 headers: {
                     'Content-type': 'application/json',
