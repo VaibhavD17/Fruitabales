@@ -81,8 +81,8 @@ function Category(props) {
     }
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'name', headerName: 'Category name', width: 130 },
+        { field: 'id', headerName: 'ID', width: 150 },
+        { field: 'name', headerName: 'Category name', width: 200 },
         {
             field: 'action',
             headerName: 'Action',
