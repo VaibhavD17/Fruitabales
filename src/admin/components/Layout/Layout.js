@@ -106,12 +106,12 @@ export default function Layout({ children }) {
     };
 
     const listItems = [
-        { label: 'Category', icon: <CategoryIcon />, to: '/admin/category' },
-        { label: 'SubCategory', icon: <FormatListBulletedIcon />, to: '/admin/subcategory' },
-        { label: 'Product', icon: <AppleIcon />, to: '/admin/product' },
-        { label: 'coupon', icon: <PaymentsIcon />, to: '/admin/coupon' },
-        { label: 'reviewdata', icon: <ReviewsIcon />, to: '/admin/reviewdata' },
-        { label: 'orderList', icon: < ShoppingBagIcon/>, to: '/admin/orderList' }
+        { label: 'Categorys', icon: <CategoryIcon />, to: '/admin/category' },
+        { label: 'SubCategorys', icon: <FormatListBulletedIcon />, to: '/admin/subcategory' },
+        { label: 'Products', icon: <AppleIcon />, to: '/admin/product' },
+        { label: 'Coupons', icon: <PaymentsIcon />, to: '/admin/coupon' },
+        { label: 'Reviews', icon: <ReviewsIcon />, to: '/admin/reviewdata' },
+        { label: 'Orders', icon: < ShoppingBagIcon/>, to: '/admin/orderList' }
 
 
     ]
